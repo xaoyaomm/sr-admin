@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"    
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"    
+          xmlns:context="http://www.springframework.org/schema/context"    
+          xmlns:mongo="http://www.springframework.org/schema/data/mongo"    
+          xsi:schemaLocation="http://www.springframework.org/schema/context     
+          http://www.springframework.org/schema/context/spring-context.xsd     
+          http://www.springframework.org/schema/data/mongo     
+          http://www.springframework.org/schema/data/mongo/spring-mongo.xsd     
+          http://www.springframework.org/schema/beans     
+          http://www.springframework.org/schema/beans/spring-beans.xsd">
+    
+    <mongo:mongo host="${x.mongoHost}" port="${x.mongoPort}"/>
+    
+    <mongo:db-factory dbname="storeRun" mongo-ref="mongo" /> 
+
+	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+        <constructor-arg name="mongoDbFactory" ref="mongoDbFactory" />
+        <constructor-arg name="mongoConverter" ref="mappingMongoConverter" />  
+    </bean>
+    
+    <bean id="mappingMongoConverter" class="org.springframework.data.mongodb.core.convert.MappingMongoConverter">  
+        <constructor-arg name="mongoDbFactory" ref="mongoDbFactory" />  
+        <constructor-arg name="mappingContext" ref="mappingContext" />  
+        <property name="typeMapper" ref="defaultMongoTypeMapper" />  
+    </bean>  
+  
+  	<bean id="mappingContext" class="org.springframework.data.mongodb.core.mapping.MongoMappingContext" />  
+  	
+    <!-- 默认Mongodb类型映射 -->  
+    <bean id="defaultMongoTypeMapper" class="org.springframework.data.mongodb.core.convert.DefaultMongoTypeMapper">  
+        <constructor-arg name="typeKey">  
+            <null /><!-- 这里设置为空,可以把 spring data mongodb 多余保存的_class字段去掉 -->  
+        </constructor-arg>  
+    </bean>
+    
+    <mongo:repositories base-package="com.store.api.mongo"  />
+    <context:annotation-config />
+    <context:component-scan base-package="com.store.api" >
+    <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+		<context:exclude-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice" />
+    </context:component-scan>
+    
+    
+</beans>
