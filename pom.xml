@@ -255,7 +255,6 @@
 			<version>${quartz.version}</version>
 		</dependency>
 
-
 	</dependencies>
 	<build>
 		<finalName>api</finalName>
