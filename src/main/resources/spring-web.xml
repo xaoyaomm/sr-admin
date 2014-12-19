@@ -18,36 +18,22 @@
 	<!-- 默认的注解映射的支持 -->
 	<mvc:annotation-driven />
 	<!-- 视图解释类 -->
-	<bean
+	<!-- <bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="prefix" value="/" />
-		<property name="suffix" value=".jsp" /><!--可为空,方便实现自已的依据扩展名来选择视图解释类的逻辑 -->
+		<property name="prefix" value="/WEB-INF/jsp/" />
+		<property name="suffix" value=".jsp" />可为空,方便实现自已的依据扩展名来选择视图解释类的逻辑
 		<property name="viewClass"
 			value="org.springframework.web.servlet.view.JstlView" />
-	</bean>
+	</bean> -->
 
 	<mvc:default-servlet-handler />
 	
 	<!-- 拦截器 -->
 	<mvc:interceptors>
- 			<bean class="com.store.api.session.interceptor.AuthInterceptor" />
+ 			<bean class="com.store.api.session.AuthInterceptor" />
  	</mvc:interceptors> 
 
-	<!-- 总错误处理 -->
-	<!-- <bean id="exceptionResolver"
-		class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
-		<property name="defaultErrorView">
-			<value>/error/error</value>
-		</property>
-		<property name="defaultStatusCode">
-			<value>500</value>
-		</property>
-		<property name="warnLogCategory">
-			<value>org.springframework.web.servlet.handler.SimpleMappingExceptionResolver
-			</value>
-		</property>
-	</bean> -->
-<!-- 	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/> -->
+	<!-- <mvc:resources mapping="/styles/**" location="/styles/" cache-period="31536000"/> -->
 
 
 	<import resource="classpath:spring-mvc.xml" />

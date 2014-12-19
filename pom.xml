@@ -38,6 +38,7 @@
 		<imgscalr-lib.version>4.2</imgscalr-lib.version>
 		<quartz.version>2.2.1</quartz.version>
 		<jdk.version>1.7</jdk.version>
+		<freemarker.version>2.3.19</freemarker.version>
 	</properties>
 	<dependencies>
 
@@ -254,10 +255,15 @@
 			<artifactId>quartz-jobs</artifactId>
 			<version>${quartz.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.freemarker</groupId>
+			<artifactId>freemarker</artifactId>
+			<version>${freemarker.version}</version>
+		</dependency>
 
 	</dependencies>
 	<build>
-		<finalName>api</finalName>
+		<finalName>admin</finalName>
 		<resources>
 			<resource>
 				<directory>src/main/resources</directory>
@@ -281,7 +287,7 @@
 				<artifactId>tomcat6-maven-plugin</artifactId>
 				<version>2.2</version>
 				<configuration>
-					<port>8082</port>
+					<port>8081</port>
 					<path>/</path>
 				</configuration>
 			</plugin>
