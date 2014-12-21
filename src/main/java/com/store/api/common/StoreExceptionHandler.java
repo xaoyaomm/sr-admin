@@ -1,8 +1,6 @@
 package com.store.api.common;
 
 import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -20,7 +18,7 @@ public class StoreExceptionHandler {
   
     @ExceptionHandler(Exception.class)  
     @ResponseBody  
-    public Map<String, String> handleException(Exception e ,HttpServletRequest req) {
+    public String handleException(Exception e ,HttpServletRequest req) {
         StackTraceElement[] ste = e.getStackTrace();  
         StringBuffer sb_e = new StringBuffer();  
         for(int j=0;j<ste.length;j++){  
@@ -40,9 +38,7 @@ public class StoreExceptionHandler {
             sbUrl.append(arg + "=" + req.getParameterValues(arg)[0]);  
         }  
         LOG.error(sbUrl.toString()+" --->\n"+e.getMessage()+"\n"+sb_e.toString());
-        Map<String, String> map=new HashMap<String, String>();
-        map.put("errorcode", "-99");
-        map.put("info", "服务器忙，请稍候再试");
-        return map;  
+        AjaxObject ajaxObject=AjaxObject.newError("服务器异常");
+        return ajaxObject.toString();  
     }  
 }

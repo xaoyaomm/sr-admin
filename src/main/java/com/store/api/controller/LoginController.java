@@ -18,30 +18,36 @@ import com.store.api.utils.Utils;
 @Controller
 @Scope("prototype")
 @RequestMapping("login")
-public class LoginController extends BaseAction{
-	
-	@Autowired
-	SysUserService sysUserService;
-	
-	@RequestMapping("/login")
-	public ModelAndView list(@RequestParam(value = "username", required = false, defaultValue = "")
-    String userName,@RequestParam(value = "password", required = false, defaultValue = "")
+public class LoginController extends BaseAction {
+
+    @Autowired
+    SysUserService sysUserService;
+
+    @RequestMapping("/login")
+    public ModelAndView list(@RequestParam(value = "username", required = false, defaultValue = "")
+    String userName, @RequestParam(value = "password", required = false, defaultValue = "")
     String passWord) {
-		Map<String, Object> result =new HashMap<String, Object>();
-		if(Utils.isEmpty(userName)|| Utils.isEmpty(passWord)){
-			result.put("error", "用户名或密码错误");
-		}
-		SysUser user=sysUserService.findByUserName(userName);
-		if(null!=user){
-			if(!Utils.isEmpty(user.getPwd()) && user.getPwd().equalsIgnoreCase(MD5.encrypt(passWord))){
-				request.getSession().setAttribute("user", user);
-				return new ModelAndView("redirect:/index");
-			}else
-				result.put("error", "密码错误");
-				
-		}else{
-			result.put("error", "用户不存在");
-		}
-		return new ModelAndView("/login",result);
-	}
+        Map<String, Object> result = new HashMap<String, Object>();
+        if (Utils.isEmpty(userName) || Utils.isEmpty(passWord)) {
+            result.put("error", "用户名或密码错误");
+        }
+        SysUser user = sysUserService.findByUserName(userName);
+        if (null != user) {
+            if (!Utils.isEmpty(user.getPwd()) && user.getPwd().equalsIgnoreCase(MD5.encrypt(passWord))) {
+                if (user.getStatus() == 0)
+                    result.put("error", "帐号已被禁用");
+                else {
+                    user.setLastUserTime(System.currentTimeMillis());
+                    sysUserService.save(user);
+                    request.getSession().setAttribute("user", user);
+                    return new ModelAndView("redirect:/index");
+                }
+            } else
+                result.put("error", "密码错误");
+
+        } else {
+            result.put("error", "用户不存在");
+        }
+        return new ModelAndView("/login", result);
+    }
 }

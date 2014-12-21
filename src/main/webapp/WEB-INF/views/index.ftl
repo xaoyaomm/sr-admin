@@ -119,15 +119,30 @@ $(function(){
 
 				<div class="accordion" fillSpace="sidebar">
 					<div class="accordionContent">
-						<ul class="tree treeFolder"><!-- 
-							<li><a href="tabsPage.html" target="navTab">主框架面板</a>
-								<ul>
-									<li><a href="main.html" target="navTab" rel="main">我的主页</a></li>
-								</ul>
-							</li> -->
+						<ul class="tree treeFolder"> 
 							<#if user.roleId == 1>
-							<li><a href="/login" target="navTab" rel="tab_user">用户管理</a></li>
+							<li><a href="/user/list" target="navTab" rel="tab_user">用户管理</a></li>
 							</#if>
+							<li><a>用户管理</a>
+								<ul>
+									<li><a href="/customer/list" target="navTab" rel="tab_customer">用户管理</a></li>
+									<li><a href="/merchants/list" target="navTab" rel="tab_merchants">商户管理</a></li>
+									<li><a href="/statis/user" target="navTab" rel="tab_statis_user">用户统计</a></li>
+								</ul>
+							</li>
+							<li><a>订单管理</a>
+								<ul>
+									<li><a href="/order/list" target="navTab" rel="tab_order">订单列表</a></li>
+									<li><a href="/statis/order" target="navTab" rel="tab_statis_order">订单统计</a></li>
+								</ul>
+							</li>  
+							<li><a>商品管理</a>
+								<ul>
+									<li><a href="/catalog/list" target="navTab" rel="tab_catalog">分类管理</a></li>
+									<li><a href="/product/list" target="navTab" rel="tab_product">商品管理</a></li>
+									<li><a href="/statis/product" target="navTab" rel="tab_statis_product">商品统计</a></li>
+								</ul>
+							</li> 
 						</ul>
 					</div>
 				</div>
@@ -160,9 +175,31 @@ $(function(){
 					 </div>
 					 	<@dwz.layout_form_content layoutH="80">
 						   <@dwz.fieldset title="基本信息">
-							用户名:${user.userName}    
-							手机号:${user.phone}	 
-							角色:<#if user.roleId == 1>管理员<#else>普通用户</#if>
+							<table width="100%" cellspacing="1" cellpadding="3" class="input">
+		<tbody>		
+		<tr>
+		   <th>用户名：</th><td>${user.userName!}</td>
+		</tr>
+		<tr>
+		   <th>昵称：</th><td>${user.nickName!}</td>
+		</tr>
+		<tr>
+		   <th>手机号：</th><td>${user.phone!}</td>
+		</tr>
+		<tr>
+		   <th>状态：</th>
+		   <td><#if (user.status?exists && user.status == 1)>有效<#else>禁用</#if></td>
+		</tr>
+		<tr>
+		   <th>角色：</th>
+		   <td> <#if (user.roleId?exists && user.roleId == 1)>管理员</#if>
+		    <#if (user.roleId?exists && user.roleId == 2)>普通用户</#if></td>
+		</tr>
+		<tr>
+		   <th>创建时间：</th><td>${user.createTime?number?number_to_datetime}</td>
+		</tr>
+		</tbody>
+		</table>
 						   </@dwz.fieldset>
 						 </@dwz.layout_form_content >
 				</div>
