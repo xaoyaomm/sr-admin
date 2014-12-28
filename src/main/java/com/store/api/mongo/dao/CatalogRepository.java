@@ -6,4 +6,6 @@ import com.store.api.mongo.entity.Catalog;
 
 public interface CatalogRepository extends MongoRepository<Catalog, Long> {
 
+	public Catalog findByName(String name);
+
 }

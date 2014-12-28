@@ -3,7 +3,6 @@ package com.store.api.mongo.entity;
 import java.io.Serializable;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-
 @Document
 public class Catalog implements Serializable{
 	

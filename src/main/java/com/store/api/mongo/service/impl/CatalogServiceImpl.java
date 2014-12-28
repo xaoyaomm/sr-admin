@@ -3,6 +3,8 @@ package com.store.api.mongo.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.store.api.mongo.dao.CatalogRepository;
@@ -49,7 +51,18 @@ public class CatalogServiceImpl implements CatalogService {
 
 	@Override
 	public List<Catalog> findAllCatalog() {
-		return repository.findAll();
+		Sort sort=new Sort(Direction.DESC, "order");
+		return repository.findAll(sort);
+	}
+
+	@Override
+	public Catalog findByName(String name) {
+		return repository.findByName(name);
+	}
+
+	@Override
+	public Catalog findOne(long id) {
+		return repository.findOne(id);
 	}
 
 }

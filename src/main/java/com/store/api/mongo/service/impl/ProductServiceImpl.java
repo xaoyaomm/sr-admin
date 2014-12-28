@@ -65,7 +65,7 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public List<Product> findByAreaId(long areaId) {
-		return repository.findByAreaId(areaId);
+		return repository.findByAreaIdOrderByOrderDesc(areaId);
 	}
 
 	@Override
@@ -91,6 +91,11 @@ public class ProductServiceImpl implements ProductService {
 			map.put(pro.getId(), pro);
 		}
 		return map;
+	}
+
+	@Override
+	public List<Product> findByAreaIdAndCatalogId(long areaId, long catalogId) {
+		return repository.findByAreaIdAndCatalogIdAndStatusNotOrderByOrderDesc(areaId, catalogId,3);
 	}
 
 }

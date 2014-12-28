@@ -29,6 +29,14 @@ public interface ProductService {
 	public List<Product> findByAreaId(long areaId);
 	
 	/**
+	 * 按区域ID和分类ID查询
+	 * @param areaId
+	 * @param catalogId
+	 * @return
+	 */
+	public List<Product> findByAreaIdAndCatalogId(long areaId,long catalogId);
+	
+	/**
 	 * 按区域ID和版本号查询
 	 * @param areaId
 	 * @param ver

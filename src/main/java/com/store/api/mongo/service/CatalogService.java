@@ -21,5 +21,9 @@ public interface CatalogService {
 	public void remove(Catalog entity);
 	
 	public List<Catalog> findAllCatalog();
+	
+	public Catalog findByName(String name);
+	
+	public Catalog findOne(long id);
 
 }

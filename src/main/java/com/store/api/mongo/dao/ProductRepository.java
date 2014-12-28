@@ -21,7 +21,7 @@ public interface ProductRepository extends MongoRepository<Product, Long> {
 	 * @param areaId
 	 * @return
 	 */
-	public List<Product> findByAreaId(Long areaId);
+	public List<Product> findByAreaIdOrderByOrderDesc(Long areaId);
 	
 	/**
 	 * 按区域ID和版本号查询
@@ -38,5 +38,13 @@ public interface ProductRepository extends MongoRepository<Product, Long> {
 	 * @return
 	 */
 	public Page<Product> findByAreaId(Long areaId,Pageable pr);
+	
+	/**
+	 * 按区域ID和分类ID查询
+	 * @param areaId
+	 * @param catalogId
+	 * @return
+	 */
+	public List<Product> findByAreaIdAndCatalogIdAndStatusNotOrderByOrderDesc(long areaId, long catalogId,int status);
 
 }

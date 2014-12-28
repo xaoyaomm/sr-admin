@@ -19,8 +19,8 @@ public class Area implements Serializable{
 	/** 区域名称 **/
 	private String title="";
 	
-	/** 区域类型 0顶级 1 1级 2 2级 **/
-	private int type=0;
+	/** 区域类型 1顶级 2 1级 **/
+	private int type=1;
 
 	public long getId() {
 		return id;

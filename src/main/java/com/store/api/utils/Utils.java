@@ -42,7 +42,7 @@ public class Utils {
     }
     
     /**
-     * 按年/月/日/时拼装文件地址
+     * 按年/月/日拼装文件地址
      * @param basePath
      * @return
      */
@@ -51,7 +51,6 @@ public class Utils {
         int year = cal.get(Calendar.YEAR);
         int month = cal.get(Calendar.MONTH)+1;
         int day = cal.get(Calendar.DAY_OF_MONTH);
-        int hour = cal.get(Calendar.HOUR_OF_DAY);
         StringBuffer sb=new StringBuffer();
         sb.append(basePath);
         if(basePath.endsWith("/")||basePath.endsWith("\\"))
@@ -59,8 +58,7 @@ public class Utils {
         else
             sb.append("/").append(year);
         sb.append("/").append(month);
-        sb.append("/").append(day);
-        sb.append("/").append(hour).append("/");
+        sb.append("/").append(day).append("/");
         return sb.toString();
     }
     

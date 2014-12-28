@@ -40,7 +40,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 			Object user = request.getSession().getAttribute("user");
 			if (null == user) {
 				if ("XMLHttpRequest".equalsIgnoreCase(request.getHeader("X-Requested-With")) || request.getParameter("ajax") != null) {
-					AjaxObject ajaxObject=AjaxObject.newError("会话超时，请重新登录");
+					AjaxObject ajaxObject=AjaxObject.newTimeout("会话超时，请重新登录");
 					response.getWriter().write(ajaxObject.toString());
 					return false;
 				} else {

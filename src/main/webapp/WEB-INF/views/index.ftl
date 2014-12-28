@@ -8,7 +8,6 @@
 <link href="${request.contextPath}/styles/wechat/themes/default/style.css" rel="stylesheet" type="text/css" media="screen"/>
 <link href="${request.contextPath}/styles/wechat/themes/css/core.css" rel="stylesheet" type="text/css" media="screen"/>
 <link href="${request.contextPath}/styles/wechat/themes/css/print.css" rel="stylesheet" type="text/css" media="print"/>
-<link href="${request.contextPath}/styles/wechat/themes/css/custom.css" rel="stylesheet" type="text/css" media="screen"/>
 <link href="${request.contextPath}/styles/uploadify/css/uploadify.css" rel="stylesheet" type="text/css" media="screen"/>
 <link href="${request.contextPath}/styles/wechat/themes/css/table_input.css" rel="stylesheet" type="text/css" media="screen"/>
  
@@ -139,7 +138,7 @@ $(function(){
 							<li><a>商品管理</a>
 								<ul>
 									<li><a href="/catalog/list" target="navTab" rel="tab_catalog">分类管理</a></li>
-									<li><a href="/product/list" target="navTab" rel="tab_product">商品管理</a></li>
+									<li><a href="/product/search" target="navTab" rel="tab_product">商品管理</a></li>
 									<li><a href="/statis/product" target="navTab" rel="tab_statis_product">商品统计</a></li>
 								</ul>
 							</li> 

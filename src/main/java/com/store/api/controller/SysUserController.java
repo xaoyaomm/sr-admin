@@ -35,7 +35,7 @@ import com.store.api.utils.Utils;
 @Controller
 @Scope("prototype")
 @RequestMapping("user")
-public class UserController extends BaseAction {
+public class SysUserController extends BaseAction {
 
     @Autowired
     SysUserService sysUserService;

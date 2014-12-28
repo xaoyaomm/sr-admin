@@ -25,6 +25,11 @@ public class Constant {
     public static final double EARTH_RADIUS = 6378137;
     
     /**
+     * 图片文件存放物理路径
+     */
+    public static final String PHOTO_PATH;
+    
+    /**
      * 图片URL地址前缀
      */
     public static final String IMG_URL_PRE;
@@ -68,6 +73,7 @@ public class Constant {
         } catch (IOException ex) {
             LOG.error("load config.properties file fail:" + ex.getMessage());
         }
+        PHOTO_PATH=props.getProperty("attachPath","/data/pic/product/");
         IMG_URL_PRE=props.getProperty("imgAddress","http://192.168.1.51:81");
         SEARCH_DISTANCE=PropertiesUtil.getLongProperty(props, "searchDistance");
         COOKIE_DOMAIN=props.getProperty("cookieDomain","202.96.155.42");
