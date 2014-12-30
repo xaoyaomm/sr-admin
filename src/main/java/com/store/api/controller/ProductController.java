@@ -62,12 +62,7 @@ public class ProductController extends BaseAction {
 	public ModelAndView search(@RequestParam(value = "pid", required = false, defaultValue = "7") long pid,
 			@RequestParam(value = "cid", required = false, defaultValue = "340") long cid, @RequestParam(value = "catalog_id", required = false, defaultValue = "1") long catalogId) {
 		List<Catalog> catalogList = catalogService.findAllCatalog();
-		long ocid = 0;
-		if (cid == 340)
-			ocid = 51;
-		else
-			ocid = cid;
-		List<Product> list = productService.findByAreaIdAndCatalogId(ocid, catalogId);
+		List<Product> list = productService.findByAreaIdAndCatalogId(cid, catalogId);
 		List<Area> areapList = areaService.findByAllTop();
 		List<Area> areacList = areaService.findByParentId(pid);
 
