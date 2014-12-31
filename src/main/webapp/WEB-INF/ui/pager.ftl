@@ -22,8 +22,8 @@
 >
 	<input type="hidden" name="pageNum" value="${page.pageNum}"/>
 	<input type="hidden" name="numPerPage" value="${page.numPerPage}"/>
-	<input type="hidden" name="orderField" value="${page.orderField}"/>
-	<input type="hidden" name="orderDirection" value="${page.orderDirection}"/>
+	<#--<input type="hidden" name="orderField" value="${page.orderField}"/>
+	<input type="hidden" name="orderDirection" value="${page.orderDirection}"/>-->
 	<#--其他隐藏域字段-->
 	<#nested>
 </@form>

@@ -39,5 +39,16 @@ public interface OrderRepository extends MongoRepository<Order, Long> {
      */
     @Query(value="{'offers':{'$elemMatch':{'merchantsId':?0,'status':{'$ne':1}}},'id':{'$lt':?1}}")
     public Page<Order> findTailOrder(Long mercId, Long orderId,Pageable pr);
+    
+    /**
+     * 按创建时间,状态,地区分页查询
+     * @param start
+     * @param end
+     * @param status
+     * @param cityCode
+     * @return
+     */
+    @Query(value="{'createDate':{'$gte':?0,'$lt':?1},'status':{'$in':?2},'cityCode':?3}")
+    public Page<Order> findByCreateDateAndStatusAndArea(long start,long end,int[] status,int cityCode,Pageable pr);
 
 }

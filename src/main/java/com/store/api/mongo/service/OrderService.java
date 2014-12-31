@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 
+import com.store.api.common.PageBean;
 import com.store.api.mongo.entity.Order;
 
 /**
@@ -67,4 +68,14 @@ public interface OrderService {
      * @return
      */
     public Page<Order> findTailOrder(long mercId,long orderId,int page,int size);
+    
+    /**
+     * 按创建时间,状态,地区分页查询
+     * @param start
+     * @param end
+     * @param status
+     * @param cityCode
+     * @return
+     */
+    public List<Order> findByCreateDateAndStatusAndArea(PageBean pageBean,long start,long end,int status,int cityCode);
 }

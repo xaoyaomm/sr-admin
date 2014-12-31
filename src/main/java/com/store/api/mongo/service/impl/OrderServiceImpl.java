@@ -15,10 +15,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
+import com.store.api.common.PageBean;
 import com.store.api.mongo.dao.OrderRepository;
 import com.store.api.mongo.entity.Order;
 import com.store.api.mongo.service.OrderService;
 import com.store.api.mongo.service.SequenceService;
+import com.store.api.utils.Utils;
 
 /**
  * 
@@ -102,5 +104,23 @@ public class OrderServiceImpl implements OrderService {
         PageRequest pr=new PageRequest(page<0?0:page-1, size, Direction.DESC, "createDate");
         return repository.findTailOrder(mercId,orderId,pr);
     }
+
+	@Override
+	public List<Order> findByCreateDateAndStatusAndArea(PageBean pageBean, long start, long end, int status, int cityCode) {
+		int page=pageBean.getPlainPageNum()<0?0:pageBean.getPlainPageNum()-1;
+		String statusStr=null;
+		if(status==0)
+			statusStr="0";
+		if(status==1)
+			statusStr="1,2,4,6";
+		if(status==2)
+			statusStr="9,10";
+		int[] statusArry=Utils.string2IntArray(statusStr, ",");
+        PageRequest pr=new PageRequest(page, pageBean.getNumPerPage(), Direction.DESC,"createDate");
+        Page<Order> orders=repository.findByCreateDateAndStatusAndArea(start, end, statusArry, cityCode, pr);
+        pageBean.setTotalCount(orders.getTotalElements());
+        pageBean.setTotalPage(orders.getTotalPages());
+		return orders.getContent();
+	}
 
 }

@@ -60,7 +60,7 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Override
     public List<SysUser> findAll(PageBean pageBean) {
-        int page=pageBean.getPageNum()<0?0:pageBean.getPageNum()-1;
+        int page=pageBean.getPlainPageNum()<0?0:pageBean.getPlainPageNum()-1;
         String dirStr=pageBean.getOrderDirection();
         Direction direction=dirStr.equals(PageBean.ORDER_DIRECTION_DESC)? Direction.DESC:Direction.ASC;
         String orderField=Utils.isEmpty(pageBean.getOrderField())?"id":pageBean.getOrderField();
@@ -73,7 +73,7 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Override
     public List<SysUser> findByUserNameLike(PageBean pageBean, String str) {
-        int page=pageBean.getPageNum()<0?0:pageBean.getPageNum()-1;
+        int page=pageBean.getPlainPageNum()<0?0:pageBean.getPlainPageNum()-1;
         String dirStr=pageBean.getOrderDirection();
         Direction direction=dirStr.equals(PageBean.ORDER_DIRECTION_DESC)? Direction.DESC:Direction.ASC;
         String orderField=Utils.isEmpty(pageBean.getOrderField())?"id":pageBean.getOrderField();

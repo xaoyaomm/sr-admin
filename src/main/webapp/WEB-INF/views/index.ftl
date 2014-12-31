@@ -131,7 +131,7 @@ $(function(){
 							</li>
 							<li><a>订单管理</a>
 								<ul>
-									<li><a href="/order/list" target="navTab" rel="tab_order">订单列表</a></li>
+									<li><a href="/order/search" target="navTab" rel="tab_order">订单列表</a></li>
 									<li><a href="/statis/order" target="navTab" rel="tab_statis_order">订单统计</a></li>
 								</ul>
 							</li>  
