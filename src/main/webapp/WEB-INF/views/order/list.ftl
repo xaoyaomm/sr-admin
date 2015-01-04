@@ -61,16 +61,16 @@
 	<table class="table" width="100%" layoutH="120">
 		<thead>
 			<tr>
-				<th width="20" >序号</th>
-				<th width="150">订单号</th>
-                <th width="220">送货地址</th>
-                <th width="220">接单商户</th>
-                <th width="220">推送商家</th>
-                <th width="220">下单时间</th>
-                <th width="220">城市</th>
-                <th width="220">订单总价(元)</th>
-				<th width="50">订单状态</th>
-				<th width="50">查看详情</th>
+				<th>序号</th>
+				<th>订单号</th>
+                <th>送货地址</th>
+                <th>接单商户</th>
+                <th>推送商家</th>
+                <th>下单时间</th>
+                <th>城市</th>
+                <th>订单总价(元)</th>
+				<th>订单状态</th>
+				<th>操作</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -85,7 +85,7 @@
 			      <td>${item.city!}</td>
 			      <td>${item.totalPrice! / 100}</td>
 			      <td><#if item.status??&&item.status==0>无人接单<#elseif item.status==1>已抢单<#elseif item.status==2>送货中<#elseif item.status==4>已送达<#elseif item.status==6>已确认<#elseif item.status==9>用户标记未送达<#elseif item.status==10>订单取消</#if></td>
-			      <td><a class="btnEdit" href="${request.contextPath}/order/detail/${item.id!}" height="500" width="800" mask="true" target="dialog" title="详细信息" rel="product_info">编辑</a></td>
+			      <td><a  href="${request.contextPath}/order/detail/${item.id!}" height="700" width="800" mask="true" target="dialog" title="详细信息" rel="product_info">查看详情</a></td>
 			   </tr>
 			</#list>
 		</tbody>
