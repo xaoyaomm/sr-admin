@@ -78,4 +78,8 @@ public interface OrderService {
      * @return
      */
     public List<Order> findByCreateDateAndStatusAndArea(PageBean pageBean,long start,long end,int status,int cityCode);
+    
+    public List<Order> findByMerchantsId(long id);
+    
+    public List<Order> findByCustomerId(long id);
 }

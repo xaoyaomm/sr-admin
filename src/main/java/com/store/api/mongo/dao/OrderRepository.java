@@ -1,5 +1,7 @@
 package com.store.api.mongo.dao;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
@@ -12,6 +14,10 @@ public interface OrderRepository extends MongoRepository<Order, Long> {
     public Page<Order> findByCustomerId(Long id,Pageable pr);
     
     public Page<Order> findByMerchantsId(Long id,Pageable pr);
+    
+    public List<Order> findByCustomerId(Long id);
+    
+    public List<Order> findByMerchantsId(Long id);
     
     /**
      * 查询今天商户错过的订单数

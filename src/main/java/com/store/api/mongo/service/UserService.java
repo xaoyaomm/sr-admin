@@ -3,9 +3,11 @@ package com.store.api.mongo.service;
 
 import java.util.List;
 
+import com.store.api.common.PageBean;
 import com.store.api.mongo.entity.User;
 import com.store.api.mongo.entity.enumeration.UserType;
 import com.store.api.mongo.entity.vo.UserSearch;
+import com.store.api.mongo.entity.vo.UserView;
 
 public interface UserService {
 	
@@ -29,5 +31,7 @@ public interface UserService {
 	 * @return
 	 */
 	public List<UserSearch> geoSearch(UserType type,double[] location,long distance);
+	
+	public List<UserView> findByCustomer(PageBean pageBean,long startTime, long endTime, int cid);
 	
 }

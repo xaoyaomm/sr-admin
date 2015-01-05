@@ -124,7 +124,7 @@ $(function(){
 							</#if>
 							<li><a>用户管理</a>
 								<ul>
-									<li><a href="/customer/list" target="navTab" rel="tab_customer">用户管理</a></li>
+									<li><a href="/customer/search" target="navTab" rel="tab_customer">用户管理</a></li>
 									<li><a href="/merchants/list" target="navTab" rel="tab_merchants">商户管理</a></li>
 									<li><a href="/statis/user" target="navTab" rel="tab_statis_user">用户统计</a></li>
 								</ul>

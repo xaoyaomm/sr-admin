@@ -123,4 +123,14 @@ public class OrderServiceImpl implements OrderService {
 		return orders.getContent();
 	}
 
+	@Override
+	public List<Order> findByMerchantsId(long id) {
+		return repository.findByMerchantsId(id);
+	}
+
+	@Override
+	public List<Order> findByCustomerId(long id) {
+		return repository.findByCustomerId(id);
+	}
+
 }

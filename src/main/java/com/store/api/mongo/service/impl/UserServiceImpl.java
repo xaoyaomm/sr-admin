@@ -5,14 +5,21 @@ import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.store.api.common.Common;
 import com.store.api.common.Constant;
+import com.store.api.common.PageBean;
 import com.store.api.mongo.dao.UserRepository;
+import com.store.api.mongo.entity.Order;
 import com.store.api.mongo.entity.User;
 import com.store.api.mongo.entity.enumeration.UserType;
 import com.store.api.mongo.entity.vo.UserSearch;
+import com.store.api.mongo.entity.vo.UserView;
+import com.store.api.mongo.service.OrderService;
 import com.store.api.mongo.service.SequenceService;
 import com.store.api.mongo.service.UserService;
 
@@ -24,6 +31,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserRepository repository;
+	
+	@Autowired
+	private OrderService orderService;
 
 	@Override
 	public void save(User entity) {
@@ -87,5 +97,34 @@ public class UserServiceImpl implements UserService {
         }
 		Collections.sort(voList);
 		return voList;
+	}
+
+	@Override
+	public List<UserView> findByCustomer(PageBean pageBean, long startTime, long endTime, int cid) {
+		int page=pageBean.getPlainPageNum()<0?0:pageBean.getPlainPageNum()-1;
+		PageRequest pr=new PageRequest(page, pageBean.getNumPerPage(), Direction.DESC,"createTime");
+		Page<User> users=repository.findByCustomer(startTime, endTime, cid, pr);
+		pageBean.setTotalCount(users.getTotalElements());
+        pageBean.setTotalPage(users.getTotalPages());
+        List<UserView> uvs=new ArrayList<UserView>();
+        for (User user : users) {
+        	UserView uv=new UserView();
+        	long totalSucc=0;
+        	long totalFail=0;
+        	uv.setUser(user);
+			List<Order> orders=orderService.findByCustomerId(user.getId());
+			for (Order order : orders) {
+				if(order.getStatus()==1||order.getStatus()==2||order.getStatus()==4||order.getStatus()==6)
+					totalSucc++;
+				if(order.getStatus()==9||order.getStatus()==10)
+					totalFail++;
+			}
+			uv.setTotalSucc(totalSucc);
+			uv.setTotalFail(totalFail);
+			uv.setTotalOrder(orders.size());
+			uvs.add(uv);
+		}
+        
+		return uvs;
 	}
 }

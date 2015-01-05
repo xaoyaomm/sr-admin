@@ -2,6 +2,8 @@ package com.store.api.mongo.dao;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 
@@ -25,5 +27,8 @@ public interface UserRepository extends MongoRepository<User, Long>{
 	 */
 	@Query(value="{'type':?0,'status':1,'location':{'$geoWithin':{'$centerSphere':[?1,?2]}}}")
 	public List<User> geoSearch(UserType type,double[] location,double distance);
+	
+	@Query(value="{'type':{'$ne':'merchants'},'createTime':{'$gte':?0,'$lt':?1},'cityCode':?2}")
+	public Page<User> findByCustomer(long start,long end,int cityCode,Pageable pr);
 
 }
