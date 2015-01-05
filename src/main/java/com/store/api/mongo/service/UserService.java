@@ -32,6 +32,6 @@ public interface UserService {
 	 */
 	public List<UserSearch> geoSearch(UserType type,double[] location,long distance);
 	
-	public List<UserView> findByCustomer(PageBean pageBean,long startTime, long endTime, int cid);
+	public List<UserView> findByCustomer(PageBean pageBean,long startTime, long endTime, int cid,UserType type);
 	
 }

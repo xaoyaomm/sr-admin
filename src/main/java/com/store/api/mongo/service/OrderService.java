@@ -82,4 +82,6 @@ public interface OrderService {
     public List<Order> findByMerchantsId(long id);
     
     public List<Order> findByCustomerId(long id);
+    
+    public List<Order> findByCustomerIdAndStatusIn(long customerId,Long[] status);
 }

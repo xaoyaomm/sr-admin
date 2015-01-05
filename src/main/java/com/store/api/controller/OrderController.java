@@ -63,7 +63,7 @@ public class OrderController extends BaseAction {
 		}
 		if(Utils.isEmpty(end)){
 			endTime=Utils.getNextDayMills();
-			end=start=Utils.formatDate(new Date(), "yyyy-MM-dd");
+			end=Utils.formatDate(new Date(), "yyyy-MM-dd");
 		}else{
 			endTime=Utils.parseDateStr(end,true);
 		}

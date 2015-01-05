@@ -15,7 +15,7 @@ public interface OrderRepository extends MongoRepository<Order, Long> {
     
     public Page<Order> findByMerchantsId(Long id,Pageable pr);
     
-    public List<Order> findByCustomerId(Long id);
+    public List<Order> findByCustomerIdOrderByCreateDateDesc(Long id);
     
     public List<Order> findByMerchantsId(Long id);
     
@@ -56,5 +56,7 @@ public interface OrderRepository extends MongoRepository<Order, Long> {
      */
     @Query(value="{'createDate':{'$gte':?0,'$lt':?1},'status':{'$in':?2},'cityCode':?3}")
     public Page<Order> findByCreateDateAndStatusAndArea(long start,long end,int[] status,int cityCode,Pageable pr);
+    
+    public List<Order> findByCustomerIdAndStatusInOrderByCreateDateDesc(long customerId,Long[] status);
 
 }

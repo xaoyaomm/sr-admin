@@ -17,9 +17,11 @@ import com.store.api.mongo.dao.UserRepository;
 import com.store.api.mongo.entity.Order;
 import com.store.api.mongo.entity.User;
 import com.store.api.mongo.entity.enumeration.UserType;
+import com.store.api.mongo.entity.vo.OrderStatisVo;
 import com.store.api.mongo.entity.vo.UserSearch;
 import com.store.api.mongo.entity.vo.UserView;
 import com.store.api.mongo.service.OrderService;
+import com.store.api.mongo.service.OrderStatisService;
 import com.store.api.mongo.service.SequenceService;
 import com.store.api.mongo.service.UserService;
 
@@ -33,7 +35,7 @@ public class UserServiceImpl implements UserService {
 	private UserRepository repository;
 	
 	@Autowired
-	private OrderService orderService;
+	private OrderStatisService orderStatisService;
 
 	@Override
 	public void save(User entity) {
@@ -100,31 +102,30 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<UserView> findByCustomer(PageBean pageBean, long startTime, long endTime, int cid) {
+	public List<UserView> findByCustomer(PageBean pageBean, long startTime, long endTime, int cid,UserType type) {
 		int page=pageBean.getPlainPageNum()<0?0:pageBean.getPlainPageNum()-1;
 		PageRequest pr=new PageRequest(page, pageBean.getNumPerPage(), Direction.DESC,"createTime");
-		Page<User> users=repository.findByCustomer(startTime, endTime, cid, pr);
+		Page<User> users=repository.findByCustomer(startTime, endTime, cid, pr,type);
 		pageBean.setTotalCount(users.getTotalElements());
         pageBean.setTotalPage(users.getTotalPages());
         List<UserView> uvs=new ArrayList<UserView>();
-        for (User user : users) {
+        List<Long> userIds=new ArrayList<Long>();
+        for (User user : users.getContent())
+            userIds.add(user.getId());
+        List<OrderStatisVo> statisvos=orderStatisService.statisOrderByUsers(userIds);
+        for (User user : users.getContent()) {
         	UserView uv=new UserView();
-        	long totalSucc=0;
-        	long totalFail=0;
         	uv.setUser(user);
-			List<Order> orders=orderService.findByCustomerId(user.getId());
-			for (Order order : orders) {
-				if(order.getStatus()==1||order.getStatus()==2||order.getStatus()==4||order.getStatus()==6)
-					totalSucc++;
-				if(order.getStatus()==9||order.getStatus()==10)
-					totalFail++;
+			for (OrderStatisVo vo : statisvos) {
+				if(user.getId()==vo.getCustomerId()){
+				    uv.setTotalSucc(vo.getTotalSucc());
+		            uv.setTotalFail(vo.getTotalFail());
+		            uv.setTotalOrder(vo.getTotalOrder());
+		            uv.setTotalNone(vo.getTotalNone());
+				}
 			}
-			uv.setTotalSucc(totalSucc);
-			uv.setTotalFail(totalFail);
-			uv.setTotalOrder(orders.size());
 			uvs.add(uv);
 		}
-        
 		return uvs;
 	}
 }

@@ -40,10 +40,9 @@
 					</select>
 				</td>
 				<td>
-					<select class="combox" style="width:200px" name="status" id="w_combox_status">
-								<option value="1" <#if status??&&status== 1>selected="selected"</#if>>成功订单</option>
-								<option value="0" <#if status??&&status== 0>selected="selected"</#if>>无人接单</option>
-								<option value="2" <#if status??&&status== 2>selected="selected"</#if>>失败订单</option>
+					<select class="combox" style="width:200px" name="type" id="w_combox_type">
+								<option value="1" <#if type??&&type== 1>selected="selected"</#if>>注册用户</option>
+								<option value="0" <#if type??&&type== 0>selected="selected"</#if>>临时用户</option>
 							
 					</select>
 				</td>
@@ -68,6 +67,7 @@
                 <th>最后登录时间</th>
                 <th>总订单数</th>
                 <th>成功订单数</th>
+                <th>未接订单数</th>
                 <th>失败订单数</th>
 				<th>操作</th>
 			</tr>
@@ -80,10 +80,11 @@
 			      <td><#if item.user.type??&&item.user.type=="customer">注册用户<#else>临时用户</#if></td>
 			      <td>${item.user.createTime?number?number_to_datetime}</td>
 			      <td>${item.user.lastUserTime?number?number_to_datetime}</td>
-			      <td>${item.totalOrder!}</td>
-			      <td>${item.totalSucc!}</td>
-			      <td>${item.totalFail!}</td>
-			      <td><a  href="${request.contextPath}/customer/detail/${item.id!}" height="700" width="800" mask="true" target="dialog" title="详细信息" rel="product_info">查看详情</a></td>
+			      <td><#if item.totalOrder gt 0><a  href="${request.contextPath}/customer/orders/${item.user.id!}?type=1" height="700" width="1000" mask="true" target="dialog" title="总订单" rel="customer_orders">${item.totalOrder!}</a><#else>0</#if></td>
+			      <td><#if item.totalSucc gt 0><a  href="${request.contextPath}/customer/orders/${item.user.id!}?type=2" height="700" width="1000" mask="true" target="dialog" title="成功订单" rel="customer_orders">${item.totalSucc!}</a><#else>0</#if></td>
+			      <td><#if item.totalNone gt 0><a  href="${request.contextPath}/customer/orders/${item.user.id!}?type=3" height="700" width="1000" mask="true" target="dialog" title="未抢订单" rel="customer_orders">${item.totalNone!}</a><#else>0</#if></td>
+			      <td><#if item.totalFail gt 0><a  href="${request.contextPath}/customer/orders/${item.user.id!}?type=4" height="700" width="1000" mask="true" target="dialog" title="失败订单" rel="customer_orders">${item.totalFail!}</a><#else>0</#if></td></a>
+			      <td><a  href="${request.contextPath}/customer/detail/${item.user.id!}" height="700" width="800" mask="true" target="dialog" title="详细信息" rel="customer_info">查看详情</a></td>
 			   </tr>
 			</#list>
 		</tbody>

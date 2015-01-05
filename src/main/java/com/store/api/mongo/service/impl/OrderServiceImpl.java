@@ -130,7 +130,12 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public List<Order> findByCustomerId(long id) {
-		return repository.findByCustomerId(id);
+		return repository.findByCustomerIdOrderByCreateDateDesc(id);
 	}
+
+    @Override
+    public List<Order> findByCustomerIdAndStatusIn(long customerId, Long[] status) {
+        return repository.findByCustomerIdAndStatusInOrderByCreateDateDesc(customerId, status);
+    }
 
 }

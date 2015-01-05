@@ -3,84 +3,43 @@
 <table width="100%" class="input">
 		<tbody>	
 		<tr>
-		   <th>订单编号：</th>
-		   <td>${order.id!}</td>
+		   <th>用户ID：</th>
+		   <td>${customer.id!}</td>
 		</tr>
 		</tbody>
 		</table>	
-<@dwz.fieldset title="买家信息">
+<@dwz.fieldset title="个人信息">
 <table width="100%" cellspacing="1" cellpadding="3" class="input">
 		<tbody>	
+		<tr>
+		   <th>用户名：</th>
+		   <td>${customer.userName!}</td>
+		</tr>
 		<tr>
 		   <th>姓名：</th>
-		   <td>${order.customerName!}</td>
-		   <th>电话：</th>
-		   <td>${order.customerPhone!}</td>
+		   <td>${customer.nickName!}</td>
 		</tr>
 		<tr>
-		   <th>送货地址：</th>
-		   <td>${order.toAddress!}</td>
+		   <th>电话：</th>
+		   <td>${customer.phone!}</td>
+		</tr>
+		<tr>
+		   <th>注册版本：</th>
+		   <td>${customer.registerVer!}</td>
+		   <th>当前版本：</th>
+		   <td>${customer.currVer!}</td>
 		</tr>
 		</tbody>
 </table>
 </@dwz.fieldset>
-<@dwz.fieldset title="商家信息">
+<@dwz.fieldset title="地址信息">
 <table width="100%" cellspacing="1" cellpadding="3" class="input">
 		<tbody>	
+		<#list adds as item>
 		<tr>
-		   <th>店铺名：</th>
-		   <td>${order.merchantsName!}</td>
-		   <th>电话：</th>
-		   <td>${order.merchantsPhone!}</td>
+		   <td>${item.address!}&nbsp;<span style="color:blue">(${item.location[0]!},${item.location[1]})</span>&nbsp;<span style="color:green">${item.name!}</span>&nbsp;<span style="color:#1DD2C1">${item.phone!}</span><#if item.id==customer.addressId><span style="color:red">默认地址</span></#if></td>
 		</tr>
-		<tr>
-		   <th>店铺地址：</th>
-		   <td>${order.fromAddress!}</td>
-		</tr>
-		</tbody>
-</table>
-</@dwz.fieldset>
-<@dwz.fieldset title="商品信息">
-<table width="100%" cellspacing="1" cellpadding="3" class="input">
-	<tbody>	
-	 <#assign x = 0 />
-	<#list pros as item>
-	<#if item_index%3 ==0><tr><#assign x=x+1></#if>
-		   <th>${item.productName!}：</th>
-		   <td>购买${item.amount!}份</td>
-		<#if x*3 ==item_index><tr></#if>
-	</#list>
-		<tr>
-		   <th>总价：</th>
-		   <td>${order.totalPrice / 100!}元</td>
-		</tr>
-	</tbody>
-</table>
-</@dwz.fieldset>
-<@dwz.fieldset title="订单信息">
-<table width="100%" cellspacing="1" cellpadding="3" class="input">
-		<tbody>	
-		<tr>
-		   <th>下单时间：</th>
-		   <td>${order.createDate?number?number_to_datetime}</td>
-		   
-		</tr>
-		<tr>
-		   <th>接单时间：</th>
-		   <td><#if order.offerDate?? && order.offerDate gt 0>${order.offerDate?number?number_to_datetime}<#else>未接单</#if></td>
-		</tr>
-		<tr>
-		   <th>接单用时：</th>
-		   <td><#if order.offerDate?? && order.offerDate gt 0>#{(order.offerDate-order.createDate)/1000;M0}秒<#else>未接单</#if></td>
-		</tr>
-		<tr>
-		   <th>完成时间：</th>
-		   <td><#if order.arrivedDate??&&order.arrivedDate gt 0>${order.arrivedDate?number?number_to_datetime}<#else>未完成</#if></td>
-		</tr>
-		<tr>
-		   <th>送货时间：</th>
-		   <td><#if order.arrivedDate??&&order.arrivedDate gt 0>#{(order.arrivedDate-order.offerDate)/1000/60;M0}分钟<#else>未送达</#if></td>
-		</tr>
+		</#list>
 		</tbody>
 </table>
 </@dwz.fieldset>

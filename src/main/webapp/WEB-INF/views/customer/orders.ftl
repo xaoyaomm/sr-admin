@@ -1,0 +1,34 @@
+ <#setting datetime_format="yyyy-MM-dd HH:mm"/>
+
+<div class="pageContent">	
+	<table class="table" width="100%" layoutH="120">
+		<thead>
+			<tr>
+				<th>序号</th>
+				<th>下单时间</th>
+                <th>送货地址</th>
+                <th>接单商户</th>
+                <th>商品详情</th>
+                <th>订单总价(元)</th>
+				<th>订单状态</th>
+			</tr>
+		</thead>
+		<tbody>
+			<#list cus_orders as item>
+			   <tr target="id"  rel="${item.id!}">
+			      <td>${item_index+1}</td>
+			      <td>${item.createDate?number?number_to_datetime}</td>
+			      <td>${item.toAddress!}</td>
+			      <td>${item.merchantsName!}</td>
+			      <td>
+			      	<#list item.products as pro>
+			      	${pro.productName}(${pro.amount}),
+			      	</#list>
+			      </td>
+			      <td>${item.totalPrice! / 100}</td>
+			      <td><#if item.status??&&item.status==0>无人接单<#elseif item.status==1>已抢单<#elseif item.status==2>送货中<#elseif item.status==4>已送达<#elseif item.status==6>已确认<#elseif item.status==9>用户标记未送达<#elseif item.status==10>订单取消</#if></td>
+			   </tr>
+			</#list>
+		</tbody>
+	</table>
+</div>

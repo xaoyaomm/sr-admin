@@ -29,6 +29,9 @@ public class UserView {
     
     /** 总失败订单数 **/
     private long totalFail=0;
+    
+    /** 总未接订单数 **/
+    private long totalNone=0;
 
     public long getTotalOrder() {
 		return totalOrder;
@@ -60,6 +63,14 @@ public class UserView {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public long getTotalNone() {
+        return totalNone;
+    }
+
+    public void setTotalNone(long totalNone) {
+        this.totalNone = totalNone;
     }
     
     
