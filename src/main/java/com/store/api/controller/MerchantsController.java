@@ -34,8 +34,8 @@ import com.store.api.utils.Utils;
 
 @Controller()
 @Scope("prototype")
-@RequestMapping("/customer")
-public class UserController extends BaseAction {
+@RequestMapping("/merchants")
+public class MerchantsController extends BaseAction {
 
 	@Autowired
 	private AreaService areaService;
@@ -56,15 +56,13 @@ public class UserController extends BaseAction {
 	 * @param cid
 	 * @param start
 	 * @param end
-	 * @param type 1注册用户  0临时用户
 	 * @return
 	 */
 	@RequestMapping("/search")
 	public ModelAndView search(PageBean pageBean,@RequestParam(value = "pid", required = false, defaultValue = "7") int pid,
 			@RequestParam(value = "cid", required = false, defaultValue = "340") int cid,
 			@RequestParam(value = "start", required = false, defaultValue = "") String start,
-			@RequestParam(value = "end", required = false, defaultValue = "") String end,
-			@RequestParam(value = "type", required = false, defaultValue = "1") int type) {
+			@RequestParam(value = "end", required = false, defaultValue = "") String end) {
 		List<Area> areapList = areaService.findByAllTop();
 		List<Area> areacList = areaService.findByParentId(pid);
 		long startTime=0;
@@ -86,29 +84,26 @@ public class UserController extends BaseAction {
 		}else{
 			endTime=Utils.parseDateStr(end,true);
 		}
-		List<UserView> userList=userService.findByCustomer(pageBean, startTime, endTime,cid, type==1?UserType.customer:UserType.visitor);
+		List<UserView> mercList=userService.findByMerc(pageBean, startTime, endTime,cid);
 
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("page", pageBean);
-		result.put("userList", userList);
+		result.put("mercList", mercList);
 		result.put("areapList", areapList);
 		result.put("areacList", areacList);
 		result.put("areapSelect", pid);
 		result.put("areacSelect", cid);
 		result.put("start", start);
 		result.put("end", end);
-		result.put("type", type);
-		return new ModelAndView("customer/list", result);
+		return new ModelAndView("merchants/list", result);
 	}
 	
 	@RequestMapping(value = "/detail/{id}")
 	public ModelAndView detail(@PathVariable long id) {
 		Map<String, Object> result = new HashMap<String, Object>();
 		User user = userService.findOne(id);
-		List<Address> adds=addressService.findByUserId(id);
-		result.put("customer", user);
-		result.put("adds", adds);
-		return new ModelAndView("customer/detail", result);
+		result.put("merchants", user);
+		return new ModelAndView("merchants/detail", result);
 	}
 	
 	@RequestMapping(value = "/orders/{id}")
@@ -124,8 +119,8 @@ public class UserController extends BaseAction {
         if(type==4)
             orders = orderService.findByCustomerIdAndStatusIn(id, new Long[]{9L,10L});
         
-        result.put("cus_orders", orders);
-        return new ModelAndView("customer/orders", result);
+        result.put("merc_orders", orders);
+        return new ModelAndView("merchants/orders", result);
     }
 
 }

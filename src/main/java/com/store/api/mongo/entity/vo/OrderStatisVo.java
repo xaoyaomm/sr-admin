@@ -7,6 +7,8 @@
  */
 package com.store.api.mongo.entity.vo;
 
+import java.util.Map;
+
 /**
  * 
  * Revision History
@@ -16,6 +18,13 @@ package com.store.api.mongo.entity.vo;
 public class OrderStatisVo {
     
     private long customerId=0;
+    
+    private long merchantsId=0;
+    
+    private String id="";
+    
+    /** 报价状态 **/
+    private int status=0;
     
     /** 总订单数 **/
     private long totalOrder=0;
@@ -28,6 +37,15 @@ public class OrderStatisVo {
     
     /** 总无人接单数 **/
     private long totalNone=0;
+    
+    /** 订单总金额(分) **/
+    private long totalPrice=0;
+    
+    /** 尝试接单数 **/
+    private long totalTry=0;
+    
+    /** 是否尝试接单 **/
+    private boolean isAct=false;
 
     public long getTotalOrder() {
         return totalOrder;
@@ -68,7 +86,52 @@ public class OrderStatisVo {
     public void setTotalNone(long totalNone) {
         this.totalNone = totalNone;
     }
-    
-    
 
+	public long getMerchantsId() {
+		return merchantsId;
+	}
+
+	public void setMerchantsId(long merchantsId) {
+		this.merchantsId = merchantsId;
+	}
+
+	public long getTotalPrice() {
+		return totalPrice;
+	}
+
+	public void setTotalPrice(long totalPrice) {
+		this.totalPrice = totalPrice;
+	}
+
+	public long getTotalTry() {
+		return totalTry;
+	}
+
+	public void setTotalTry(long totalTry) {
+		this.totalTry = totalTry;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
+	public boolean isAct() {
+		return isAct;
+	}
+
+	public void setAct(boolean isAct) {
+		this.isAct = isAct;
+	}
 }

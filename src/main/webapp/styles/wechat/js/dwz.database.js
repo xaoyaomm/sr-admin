@@ -20,7 +20,7 @@
 		bringBackSuggest: function(args){
 			var $box = _lookup['$target'].parents(".unitBox:first");
 			$box.find(":input").each(function(){
-				var $input = $(this), inputName = $input.attr("name");
+				var $input = $(this), inputName = $input.attr("bringBackName");
 				
 				for (var key in args) {
 					var name = (_lookup.pk == key) ? _util.lookupPk(key) : _util.lookupField(key);

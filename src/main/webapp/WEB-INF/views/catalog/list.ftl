@@ -8,7 +8,7 @@
 		<thead>
 			<tr>
 				<th width="20">序号</th>
-				<th width="150">序排</th>
+				<th width="150">排序</th>
                 <th width="220">名称</th>
 				<th width="70">操作</th>
 			</tr>

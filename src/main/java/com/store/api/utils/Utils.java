@@ -87,7 +87,7 @@ public class Utils {
 	 * @param str
 	 * @return
 	 */
-	public static long parseDateStr(String str,boolean ifEnd) {
+	public static long parseDateStr(String str, boolean ifEnd) {
 		SimpleDateFormat sm = new SimpleDateFormat("yyyy-MM-dd");
 		Date date = null;
 		try {
@@ -95,13 +95,34 @@ public class Utils {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		if (null != date){
-			if(ifEnd){
+		if (null != date) {
+			if (ifEnd) {
 				return getNextDayMills(date);
-			}else
+			} else
 				return date.getTime();
+		} else
+			return 0;
+	}
+
+	/**
+	 * 字符串转成日期毫秒数
+	 * 
+	 * @param str
+	 * @return
+	 */
+	public static long parseDateStr(String str, String format) {
+		SimpleDateFormat sm = new SimpleDateFormat("yyyy-MM-dd");
+		if (!Utils.isEmpty(format))
+			sm = new SimpleDateFormat(format);
+		Date date = null;
+		try {
+			date = sm.parse(str);
+		} catch (ParseException e) {
+			e.printStackTrace();
 		}
-		else
+		if (null != date) {
+			return date.getTime();
+		} else
 			return 0;
 	}
 
@@ -240,7 +261,7 @@ public class Utils {
 		cal.add(Calendar.DAY_OF_MONTH, 1);
 		return cal.getTime().getTime();
 	}
-	
+
 	public static long getNextDayMills(Date date) {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(date);
@@ -250,22 +271,24 @@ public class Utils {
 		cal.add(Calendar.DAY_OF_MONTH, 1);
 		return cal.getTime().getTime();
 	}
-	
+
 	/**
 	 * 字符串转换为int数组
+	 * 
 	 * @param str
 	 * @param split
 	 * @return
 	 */
-	public static int[] string2IntArray(String str,String split){
-		  if(str == null) return null;
-		  String[] chs = str.split(split);
-		  int[] arr = new int[chs.length];
-		  for(int i = 0;i<chs.length;i++){
-			  arr[i] = Integer.parseInt(chs[i]);
-		  }
-		  return arr;
-	 }
+	public static int[] string2IntArray(String str, String split) {
+		if (str == null)
+			return null;
+		String[] chs = str.split(split);
+		int[] arr = new int[chs.length];
+		for (int i = 0; i < chs.length; i++) {
+			arr[i] = Integer.parseInt(chs[i]);
+		}
+		return arr;
+	}
 
 	public static void main(String[] args) {
 		System.out.println(formatDate(new Date(getNextDayMills()), "yyyy-MM-dd HH:mm:ss"));

@@ -32,6 +32,12 @@ public class UserView {
     
     /** 总未接订单数 **/
     private long totalNone=0;
+    
+    /** 订单总金额(分) **/
+    private long totalPrice=0;
+    
+    /** 尝试接单数 **/
+    private long totalTry=0;
 
     public long getTotalOrder() {
 		return totalOrder;
@@ -72,6 +78,22 @@ public class UserView {
     public void setTotalNone(long totalNone) {
         this.totalNone = totalNone;
     }
+
+	public long getTotalPrice() {
+		return totalPrice;
+	}
+
+	public void setTotalPrice(long totalPrice) {
+		this.totalPrice = totalPrice;
+	}
+
+	public long getTotalTry() {
+		return totalTry;
+	}
+
+	public void setTotalTry(long totalTry) {
+		this.totalTry = totalTry;
+	}
     
     
     

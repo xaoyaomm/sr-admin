@@ -34,4 +34,6 @@ public interface UserService {
 	
 	public List<UserView> findByCustomer(PageBean pageBean,long startTime, long endTime, int cid,UserType type);
 	
+	public List<UserView> findByMerc(PageBean pageBean,long startTime, long endTime, int cid);
+	
 }

@@ -29,8 +29,28 @@ public class OrderStatisServiceImpl implements OrderStatisService{
     private OrderStatisDao dao;
 
     @Override
-    public List<OrderStatisVo> statisOrderByUsers(List<Long> userIds) {
-        return dao.statisOrderByUsers(userIds);
+    public List<OrderStatisVo> statisCustomerOrderByUsers(List<Long> userIds) {
+        return dao.statisCustomerOrderByUsers(userIds);
     }
+
+	@Override
+	public List<OrderStatisVo> statisMercTotalOrderByUsers(List<Long> userIds) {
+		return dao.statisMercTotalOrderByUsers(userIds);
+	}
+
+	@Override
+	public List<OrderStatisVo> statisMercTryOrderByUsers(List<Long> userIds) {
+		return dao.statisMercTryOrderByUsers(userIds);
+	}
+
+	@Override
+	public List<OrderStatisVo> statisMercSuccOrderByUsers(List<Long> userIds) {
+		return dao.statisMercSuccOrderByUsers(userIds);
+	}
+
+	@Override
+	public List<OrderStatisVo> statisMercFailOrderByUsers(List<Long> userIds) {
+		return dao.statisMercFailOrderByUsers(userIds);
+	}
 
 }

@@ -60,7 +60,8 @@ public class ProductController extends BaseAction {
 
 	@RequestMapping("/search")
 	public ModelAndView search(@RequestParam(value = "pid", required = false, defaultValue = "7") long pid,
-			@RequestParam(value = "cid", required = false, defaultValue = "340") long cid, @RequestParam(value = "catalog_id", required = false, defaultValue = "1") long catalogId) {
+			@RequestParam(value = "cid", required = false, defaultValue = "340") long cid, @RequestParam(value = "catalog_id", required = false, defaultValue = "1") long catalogId,
+			@RequestParam(value = "lookup", required = false, defaultValue = "") String lookup) {
 		List<Catalog> catalogList = catalogService.findAllCatalog();
 		List<Product> list = productService.findByAreaIdAndCatalogId(cid, catalogId);
 		List<Area> areapList = areaService.findByAllTop();
@@ -74,7 +75,10 @@ public class ProductController extends BaseAction {
 		result.put("areapSelect", pid);
 		result.put("areacSelect", cid);
 		result.put("catalogSelect", catalogId);
-		return new ModelAndView("product/list", result);
+		if(Utils.isEmpty(lookup))
+			return new ModelAndView("product/list", result);
+		else
+			return new ModelAndView("product/lookuplist", result);
 	}
 
 	@RequestMapping(value = "/cre")

@@ -29,6 +29,6 @@ public interface UserRepository extends MongoRepository<User, Long>{
 	public List<User> geoSearch(UserType type,double[] location,double distance);
 	
 	@Query(value="{'type':?3},'createTime':{'$gte':?0,'$lt':?1},'cityCode':?2}")
-	public Page<User> findByCustomer(long start,long end,int cityCode,Pageable pr,UserType type);
+	public Page<User> findByType(long start,long end,int cityCode,Pageable pr,UserType type);
 
 }

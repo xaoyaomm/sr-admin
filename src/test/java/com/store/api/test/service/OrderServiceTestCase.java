@@ -31,7 +31,40 @@ public class OrderServiceTestCase extends BaseServiceTestCase{
         List<Long> ids=new ArrayList<Long>();
         ids.add(6L);
         ids.add(89L);
-        dao.statisOrderByUsers(ids);
+        dao.statisCustomerOrderByUsers(ids);
     }
+    
+    @Test
+    public void testStatisMercTotalOrderByUsers(){
+        List<Long> ids=new ArrayList<Long>();
+        ids.add(21L);
+        ids.add(113L);
+        dao.statisMercTotalOrderByUsers(ids);
+    }
+    
+    @Test
+    public void testStatisMercTryOrderByUsers(){
+        List<Long> ids=new ArrayList<Long>();
+        ids.add(21L);
+        ids.add(113L);
+        dao.statisMercTryOrderByUsers(ids);
+    }
+    
+    @Test
+    public void testStatisMercSuccOrderByUsers(){
+        List<Long> ids=new ArrayList<Long>();
+        ids.add(21L);
+        ids.add(113L);
+        dao.statisMercSuccOrderByUsers(ids);
+    }
+    
+    @Test
+    public void testStatisMercFailOrderByUsers(){
+        List<Long> ids=new ArrayList<Long>();
+        ids.add(21L);
+        ids.add(113L);
+        dao.statisMercFailOrderByUsers(ids);
+    }
+
 
 }

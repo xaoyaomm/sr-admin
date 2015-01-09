@@ -105,14 +105,14 @@ public class UserServiceImpl implements UserService {
 	public List<UserView> findByCustomer(PageBean pageBean, long startTime, long endTime, int cid,UserType type) {
 		int page=pageBean.getPlainPageNum()<0?0:pageBean.getPlainPageNum()-1;
 		PageRequest pr=new PageRequest(page, pageBean.getNumPerPage(), Direction.DESC,"createTime");
-		Page<User> users=repository.findByCustomer(startTime, endTime, cid, pr,type);
+		Page<User> users=repository.findByType(startTime, endTime, cid, pr,type);
 		pageBean.setTotalCount(users.getTotalElements());
         pageBean.setTotalPage(users.getTotalPages());
         List<UserView> uvs=new ArrayList<UserView>();
         List<Long> userIds=new ArrayList<Long>();
         for (User user : users.getContent())
             userIds.add(user.getId());
-        List<OrderStatisVo> statisvos=orderStatisService.statisOrderByUsers(userIds);
+        List<OrderStatisVo> statisvos=orderStatisService.statisCustomerOrderByUsers(userIds);
         for (User user : users.getContent()) {
         	UserView uv=new UserView();
         	uv.setUser(user);
@@ -122,6 +122,50 @@ public class UserServiceImpl implements UserService {
 		            uv.setTotalFail(vo.getTotalFail());
 		            uv.setTotalOrder(vo.getTotalOrder());
 		            uv.setTotalNone(vo.getTotalNone());
+				}
+			}
+			uvs.add(uv);
+		}
+		return uvs;
+	}
+
+	@Override
+	public List<UserView> findByMerc(PageBean pageBean, long startTime, long endTime, int cid) {
+		int page=pageBean.getPlainPageNum()<0?0:pageBean.getPlainPageNum()-1;
+		PageRequest pr=new PageRequest(page, pageBean.getNumPerPage(), Direction.DESC,"createTime");
+		Page<User> users=repository.findByType(startTime, endTime, cid, pr,UserType.merchants);
+		pageBean.setTotalCount(users.getTotalElements());
+        pageBean.setTotalPage(users.getTotalPages());
+        List<UserView> uvs=new ArrayList<UserView>();
+        List<Long> userIds=new ArrayList<Long>();
+        for (User user : users.getContent())
+            userIds.add(user.getId());
+        List<OrderStatisVo> failOrder=orderStatisService.statisMercFailOrderByUsers(userIds);
+        List<OrderStatisVo> succOrder=orderStatisService.statisMercSuccOrderByUsers(userIds);
+        List<OrderStatisVo> totalOrder=orderStatisService.statisMercTotalOrderByUsers(userIds);
+        List<OrderStatisVo> tryOrder=orderStatisService.statisMercTryOrderByUsers(userIds);
+        for (User user : users.getContent()) {
+        	UserView uv=new UserView();
+        	uv.setUser(user);
+			for (OrderStatisVo vo : failOrder) {
+				if(user.getId()==vo.getMerchantsId()){
+		            uv.setTotalFail(vo.getTotalFail());
+				}
+			}
+			for (OrderStatisVo vo : succOrder) {
+				if(user.getId()==vo.getMerchantsId()){
+		            uv.setTotalSucc(vo.getTotalSucc());
+				}
+			}
+			for (OrderStatisVo vo : totalOrder) {
+				if(user.getId()==vo.getMerchantsId()){
+		            uv.setTotalOrder(vo.getTotalOrder());
+		            uv.setTotalPrice(vo.getTotalPrice());
+				}
+			}
+			for (OrderStatisVo vo : tryOrder) {
+				if(user.getId()==vo.getMerchantsId()){
+		            uv.setTotalTry(vo.getTotalTry());
 				}
 			}
 			uvs.add(uv);

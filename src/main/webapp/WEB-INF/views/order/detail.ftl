@@ -74,12 +74,16 @@
 		   <td><#if order.offerDate?? && order.offerDate gt 0>#{(order.offerDate-order.createDate)/1000;M0}秒<#else>未接单</#if></td>
 		</tr>
 		<tr>
-		   <th>完成时间：</th>
-		   <td><#if order.arrivedDate??&&order.arrivedDate gt 0>${order.arrivedDate?number?number_to_datetime}<#else>未完成</#if></td>
+		   <th>送达时间：</th>
+		   <td><#if order.arrivedDate??&&order.arrivedDate gt 0>${order.arrivedDate?number?number_to_datetime}<#else>无送达时间</#if></td>
+		</tr>
+		<tr>
+		   <th>确认时间：</th>
+		   <td><#if order.confirmDate??&&order.confirmDate gt 0>${order.confirmDate?number?number_to_datetime}<#else>无确认时间</#if></td>
 		</tr>
 		<tr>
 		   <th>送货时间：</th>
-		   <td><#if order.arrivedDate??&&order.arrivedDate gt 0>#{(order.arrivedDate-order.offerDate)/1000/60;M0}分钟<#else>未送达</#if></td>
+		   <td><#if order.arrivedDate??&&order.arrivedDate gt 0>#{(order.arrivedDate-order.offerDate)/1000/60;M0}分钟<#elseif order.confirmDate??&&order.confirmDate gt 0>#{(order.confirmDate-order.offerDate)/1000/60;M0}分钟<#else>未送达</#if></td>
 		</tr>
 		</tbody>
 </table>
