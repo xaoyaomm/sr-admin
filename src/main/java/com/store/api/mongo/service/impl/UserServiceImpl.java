@@ -14,10 +14,11 @@ import com.store.api.common.Common;
 import com.store.api.common.Constant;
 import com.store.api.common.PageBean;
 import com.store.api.mongo.dao.UserRepository;
+import com.store.api.mongo.dao.UserStatisDao;
 import com.store.api.mongo.entity.Order;
 import com.store.api.mongo.entity.User;
 import com.store.api.mongo.entity.enumeration.UserType;
-import com.store.api.mongo.entity.vo.OrderStatisVo;
+import com.store.api.mongo.entity.vo.StatisVo;
 import com.store.api.mongo.entity.vo.UserSearch;
 import com.store.api.mongo.entity.vo.UserView;
 import com.store.api.mongo.service.OrderService;
@@ -33,6 +34,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserRepository repository;
+	
+	@Autowired
+	private UserStatisDao userStatisDao;
 	
 	@Autowired
 	private OrderStatisService orderStatisService;
@@ -112,11 +116,11 @@ public class UserServiceImpl implements UserService {
         List<Long> userIds=new ArrayList<Long>();
         for (User user : users.getContent())
             userIds.add(user.getId());
-        List<OrderStatisVo> statisvos=orderStatisService.statisCustomerOrderByUsers(userIds);
+        List<StatisVo> statisvos=orderStatisService.statisCustomerOrderByUsers(userIds);
         for (User user : users.getContent()) {
         	UserView uv=new UserView();
         	uv.setUser(user);
-			for (OrderStatisVo vo : statisvos) {
+			for (StatisVo vo : statisvos) {
 				if(user.getId()==vo.getCustomerId()){
 				    uv.setTotalSucc(vo.getTotalSucc());
 		            uv.setTotalFail(vo.getTotalFail());
@@ -138,38 +142,59 @@ public class UserServiceImpl implements UserService {
         pageBean.setTotalPage(users.getTotalPages());
         List<UserView> uvs=new ArrayList<UserView>();
         List<Long> userIds=new ArrayList<Long>();
-        for (User user : users.getContent())
+        List<String> codes=new ArrayList<>();
+        for (User user : users.getContent()){
             userIds.add(user.getId());
-        List<OrderStatisVo> failOrder=orderStatisService.statisMercFailOrderByUsers(userIds);
-        List<OrderStatisVo> succOrder=orderStatisService.statisMercSuccOrderByUsers(userIds);
-        List<OrderStatisVo> totalOrder=orderStatisService.statisMercTotalOrderByUsers(userIds);
-        List<OrderStatisVo> tryOrder=orderStatisService.statisMercTryOrderByUsers(userIds);
+            if(user.getMercNum()!=0)
+                codes.add(user.getMercNum()+"");
+        }
+        List<StatisVo> failOrder=orderStatisService.statisMercFailOrderByUsers(userIds);
+        List<StatisVo> succOrder=orderStatisService.statisMercSuccOrderByUsers(userIds);
+        List<StatisVo> totalOrder=orderStatisService.statisMercTotalOrderByUsers(userIds);
+        List<StatisVo> tryOrder=orderStatisService.statisMercTryOrderByUsers(userIds);
+        List<StatisVo> trySuccOrder=orderStatisService.statisMercTrySuccOrderByUsers(userIds);
+        List<StatisVo> recTotal=userStatisDao.findByMercRec(codes);
         for (User user : users.getContent()) {
         	UserView uv=new UserView();
         	uv.setUser(user);
-			for (OrderStatisVo vo : failOrder) {
+			for (StatisVo vo : failOrder) {
 				if(user.getId()==vo.getMerchantsId()){
 		            uv.setTotalFail(vo.getTotalFail());
 				}
 			}
-			for (OrderStatisVo vo : succOrder) {
+			for (StatisVo vo : succOrder) {
 				if(user.getId()==vo.getMerchantsId()){
 		            uv.setTotalSucc(vo.getTotalSucc());
 				}
 			}
-			for (OrderStatisVo vo : totalOrder) {
+			for (StatisVo vo : totalOrder) {
 				if(user.getId()==vo.getMerchantsId()){
 		            uv.setTotalOrder(vo.getTotalOrder());
 		            uv.setTotalPrice(vo.getTotalPrice());
 				}
 			}
-			for (OrderStatisVo vo : tryOrder) {
+			for (StatisVo vo : tryOrder) {
 				if(user.getId()==vo.getMerchantsId()){
 		            uv.setTotalTry(vo.getTotalTry());
 				}
 			}
+			for (StatisVo vo : trySuccOrder) {
+                if(user.getId()==vo.getMerchantsId()){
+                    uv.setTotalTrySucc(vo.getTotalTrySucc());
+                }
+            }
+			for (StatisVo vo : recTotal) {
+                if(user.getMercNum()==Long.parseLong(vo.getPromoCode())){
+                    uv.setTotalRecuser(vo.getTotalRecuser());
+                }
+            }
 			uvs.add(uv);
 		}
 		return uvs;
 	}
+
+    @Override
+    public List<User> findByPromoCode(String promoCode) {
+        return repository.findByPromoCode(promoCode);
+    }
 }

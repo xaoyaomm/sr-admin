@@ -9,12 +9,12 @@
 		<thead>
 			<tr>
 				<th width="40">序号</th>
-				<th width="220">标题</th>
-				<th width="220">banner</th>
-                <th width="220">活动网址</th>
-                <th width="220">开始时间</th>
-                <th width="220">结束时间</th>
-				<th width="70">操作</th>
+				<th width="100">标题</th>
+				<th>banner</th>
+                <th>活动网址</th>
+                <th>开始时间</th>
+                <th>结束时间</th>
+				<th width="60">操作</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -22,7 +22,7 @@
 			   <tr target="id"  rel="${item.id!}">
 			      <td>${item_index+1}</td>
 			      <td>${item.name!}</td>
-			      <td class="img"><img src="${item.bannerUrl!}"/></td>
+			      <td class="img"><img src="${item.bannerUrl!}" width="400"/></td>
 			      <td>${item.pageUrl!}</td>
 			      <td>${item.start?number?number_to_datetime}</td>
 			      <td>${item.end?number?number_to_datetime}</td>

@@ -138,4 +138,19 @@ public class OrderServiceImpl implements OrderService {
         return repository.findByCustomerIdAndStatusInOrderByCreateDateDesc(customerId, status);
     }
 
+    @Override
+    public List<Order> findByMercIdAndStatusIn(long mercId, Long[] status) {
+        return repository.findByMerchantsIdAndStatusInOrderByCreateDateDesc(mercId, status);
+    }
+
+    @Override
+    public List<Order> findByMercTryOrders(long mercId) {
+        return repository.findByMercTryOrders(mercId);
+    }
+
+    @Override
+    public List<Order> findByMercReceiveOrders(long mercId) {
+        return repository.findByMercReceiveOrders(mercId);
+    }
+
 }

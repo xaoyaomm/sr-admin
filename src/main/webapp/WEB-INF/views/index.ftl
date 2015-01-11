@@ -61,9 +61,6 @@
 <script src="${request.contextPath}/styles/wechat/js/dwz.history.js" type="text/javascript"></script>
 <script src="${request.contextPath}/styles/wechat/js/dwz.combox.js" type="text/javascript"></script>
 <script src="${request.contextPath}/styles/wechat/js/dwz.print.js" type="text/javascript"></script>
-<!--
-<script src="${request.contextPath}/styles/wechat/bin/dwz.min.js" type="text/javascript"></script>
--->
 <script src="${request.contextPath}/styles/wechat/js/dwz.regional.zh.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -119,12 +116,12 @@ $(function(){
 					<div class="accordionContent">
 						<ul class="tree treeFolder"> 
 							<#if user.roleId == 1>
-							<li><a href="/user/list" target="navTab" rel="tab_user">用户管理</a></li>
+							<li><a href="/user/list" target="navTab" rel="tab_user">后台用户管理</a></li>
 							</#if>
 							<li><a>用户管理</a>
 								<ul>
 									<li><a href="/customer/search" target="navTab" rel="tab_customer">用户管理</a></li>
-									<li><a href="/merchants/list" target="navTab" rel="tab_merchants">商户管理</a></li>
+									<li><a href="/merchants/search" target="navTab" rel="tab_merchants">商户管理</a></li>
 									<li><a href="/statis/user" target="navTab" rel="tab_statis_user">用户统计</a></li>
 								</ul>
 							</li>

@@ -65,6 +65,22 @@ public class OrderServiceTestCase extends BaseServiceTestCase{
         ids.add(113L);
         dao.statisMercFailOrderByUsers(ids);
     }
+    
+    @Test
+    public void testStatisMercTrySuccOrderByUsers(){
+        List<Long> ids=new ArrayList<Long>();
+        ids.add(21L);
+        ids.add(113L);
+        dao.statisMercTrySuccOrderByUsers(ids);
+    }
+    
+    @Test
+    public void testStatisHotProducts(){
+        List<Long> ids=new ArrayList<Long>();
+        ids.add(21L);
+        ids.add(113L);
+//        dao.statisHotProducts();
+    }
 
 
 }

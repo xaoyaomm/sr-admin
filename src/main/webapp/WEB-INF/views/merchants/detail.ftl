@@ -3,8 +3,12 @@
 <table width="100%" class="input">
 		<tbody>	
 		<tr>
-		   <th>用户ID：</th>
+		   <th>店铺ID：</th>
 		   <td>${merchants.id!}</td>
+		</tr>
+		<tr>
+		   <th>推广编码：</th>
+		   <td>${merchants.mercNum!}</td>
 		</tr>
 		</tbody>
 		</table>	
@@ -25,12 +29,14 @@
 		</tr>
 		<tr>
 		   <th>店铺地址：</th>
-		   <td>${merchants.address!}</td>
+		   <td>${merchants.address!}&nbsp;<span style="color:blue">(${merchants.location[0]!},${merchants.location[1]})</span></td>
 		</tr>
 		<tr>
 		   <th>注册版本：</th>
 		   <td>${merchants.registerVer!}</td>
-		   <th>当前版本：</th>
+		</tr>
+		<tr>
+			<th>当前版本：</th>
 		   <td>${merchants.currVer!}</td>
 		</tr>
 		</tbody>

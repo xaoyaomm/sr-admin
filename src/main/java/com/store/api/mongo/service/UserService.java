@@ -36,4 +36,6 @@ public interface UserService {
 	
 	public List<UserView> findByMerc(PageBean pageBean,long startTime, long endTime, int cid);
 	
+	public List<User> findByPromoCode(String promoCode);
+	
 }

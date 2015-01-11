@@ -14,8 +14,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.store.api.common.AjaxObject;
 import com.store.api.common.PageBean;
 import com.store.api.mongo.entity.Address;
 import com.store.api.mongo.entity.Area;
@@ -106,20 +108,61 @@ public class MerchantsController extends BaseAction {
 		return new ModelAndView("merchants/detail", result);
 	}
 	
+	@ResponseBody
+	@RequestMapping(value = "/opera/{id}")
+    public String opera(@PathVariable long id,@RequestParam(value = "type", required = false, defaultValue = "0") int type) {
+	    AjaxObject ajaxObject = null;
+	    if(type==1 || type==2){
+            User user = userService.findOne(id);
+            if(null!=user){
+                if(type==1){
+                    user.setStatus(0);
+                    userService.save(user);
+                }
+                if(type==2){
+                    user.setStatus(1);
+                    userService.save(user);
+                }
+                ajaxObject = AjaxObject.newOk("修改成功");
+                ajaxObject.setCallbackType("");
+//                ajaxObject.setNavTabId("tab_merchants");
+            }else{
+                ajaxObject = AjaxObject.newError("修改失败");
+                ajaxObject.setCallbackType("");
+            }
+        }else{
+            ajaxObject = AjaxObject.newError("修改失败");
+            ajaxObject.setCallbackType("");
+        }
+        return ajaxObject.toString();
+    }
+	
+	@RequestMapping(value = "/recs/{id}")
+    public ModelAndView recs(@PathVariable long id) {
+        Map<String, Object> result = new HashMap<String, Object>();
+        User user = userService.findOne(id);
+        List<User> users=userService.findByPromoCode(user.getMercNum()+"");
+        result.put("rec_users", users);
+        return new ModelAndView("merchants/recUsers", result);
+    }
+	
 	@RequestMapping(value = "/orders/{id}")
     public ModelAndView orders(@PathVariable long id,@RequestParam(value = "type", required = false, defaultValue = "1") int type) {
         Map<String, Object> result = new HashMap<String, Object>();
         List<Order> orders=new ArrayList<Order>();
         if(type==1)
-            orders = orderService.findByCustomerId(id);
+            orders = orderService.findByMercReceiveOrders(id);
         if(type==2)
-            orders = orderService.findByCustomerIdAndStatusIn(id, new Long[]{1L,2L,4L,6L});
+            orders = orderService.findByMercTryOrders(id);
         if(type==3)
-            orders = orderService.findByCustomerIdAndStatusIn(id, new Long[]{0L});
+            orders = orderService.findByMerchantsId(id);
         if(type==4)
-            orders = orderService.findByCustomerIdAndStatusIn(id, new Long[]{9L,10L});
+            orders = orderService.findByMercIdAndStatusIn(id, new Long[]{1L,2L,4L,6L});
+        if(type==5)
+            orders = orderService.findByMercIdAndStatusIn(id, new Long[]{9L,10L});
         
         result.put("merc_orders", orders);
+        result.put("merc_id", id);
         return new ModelAndView("merchants/orders", result);
     }
 

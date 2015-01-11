@@ -7,29 +7,31 @@
  */
 package com.store.api.mongo.dao.impl;
 
+import static org.springframework.data.mongodb.core.aggregation.Aggregation.group;
+import static org.springframework.data.mongodb.core.aggregation.Aggregation.match;
+import static org.springframework.data.mongodb.core.aggregation.Aggregation.newAggregation;
+import static org.springframework.data.mongodb.core.aggregation.Aggregation.unwind;
+import static org.springframework.data.mongodb.core.aggregation.Aggregation.project;
+import static org.springframework.data.mongodb.core.aggregation.Aggregation.sort;
+import static org.springframework.data.mongodb.core.aggregation.Aggregation.limit;
+
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
+import org.hibernate.criterion.Projection;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.mongodb.core.MongoOperations;
-
-import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
-
-import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.aggregation.TypedAggregation;
 import org.springframework.data.mongodb.core.mapreduce.GroupBy;
 import org.springframework.data.mongodb.core.mapreduce.GroupByResults;
 import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.CriteriaDefinition;
 import org.springframework.stereotype.Repository;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
 import com.store.api.mongo.dao.OrderStatisDao;
 import com.store.api.mongo.entity.Order;
-import com.store.api.mongo.entity.vo.OrderStatisVo;
+import com.store.api.mongo.entity.vo.StatisVo;
 
 /**
  * 
@@ -44,21 +46,21 @@ public class OrderStatisDaoImpl implements OrderStatisDao {
     private MongoOperations mongoOps=null;
     
     @Override
-    public List<OrderStatisVo> statisCustomerOrderByUsers(List<Long> userIds) {
+    public List<StatisVo> statisCustomerOrderByUsers(List<Long> userIds) {
         Criteria cri=Criteria.where("customerId").in(userIds);
         GroupBy gb=GroupBy.key("customerId");
         gb.initialDocument("{totalOrder:0,totalSucc:0,totalFail:0,totalNone:0}");
         gb.reduceFunction("function(doc, prev) { prev.totalOrder += 1;if(doc.status==1||doc.status==2||doc.status==4||doc.status==6)prev.totalSucc +=1;if(doc.status==9||doc.status==10)prev.totalFail+=1;if(doc.status==0)prev.totalNone+=1;}");
-        GroupByResults<OrderStatisVo> result=mongoOps.group(cri, "order", gb, OrderStatisVo.class);
-        List<OrderStatisVo> vos=new ArrayList<OrderStatisVo>();
-        for (OrderStatisVo vo : result) {
+        GroupByResults<StatisVo> result=mongoOps.group(cri, "order", gb, StatisVo.class);
+        List<StatisVo> vos=new ArrayList<StatisVo>();
+        for (StatisVo vo : result) {
             vos.add(vo);
         }
          return vos;
     }
 
 	@Override
-	public List<OrderStatisVo> statisMercTotalOrderByUsers(List<Long> userIds) {
+	public List<StatisVo> statisMercTotalOrderByUsers(List<Long> userIds) {
 		Criteria cri=Criteria.where("offers.merchantsId").in(userIds);
 		TypedAggregation<Order> agg = newAggregation(Order.class,
 				unwind("offers"),
@@ -68,13 +70,13 @@ public class OrderStatisDaoImpl implements OrderStatisDao {
 					.sum("totalPrice").as("totalPrice")
 					.first("offers.merchantsId").as("merchantsId")
 				);
-		AggregationResults<OrderStatisVo> result=mongoOps.aggregate(agg, OrderStatisVo.class);
-		List<OrderStatisVo> vos=result.getMappedResults();
+		AggregationResults<StatisVo> result=mongoOps.aggregate(agg, StatisVo.class);
+		List<StatisVo> vos=result.getMappedResults();
 		return vos;
 	}
 
 	@Override
-	public List<OrderStatisVo> statisMercTryOrderByUsers(List<Long> userIds) {
+	public List<StatisVo> statisMercTryOrderByUsers(List<Long> userIds) {
 		Criteria cri=Criteria.where("offers.merchantsId").in(userIds);
 		Criteria cri2=Criteria.where("_id.isAct").is(Boolean.TRUE);
 		TypedAggregation<Order> agg = newAggregation(Order.class,
@@ -84,47 +86,81 @@ public class OrderStatisDaoImpl implements OrderStatisDao {
 					.count().as("totalTry"),
 				match(cri2)
 				);
-		AggregationResults<OrderStatisVo> result=mongoOps.aggregate(agg, OrderStatisVo.class);
-		List<OrderStatisVo> vos=result.getMappedResults();
+		AggregationResults<StatisVo> result=mongoOps.aggregate(agg, StatisVo.class);
+		List<StatisVo> vos=result.getMappedResults();
 		return vos; 
 	}
 
 	@Override
-	public List<OrderStatisVo> statisMercSuccOrderByUsers(List<Long> userIds) {
-		Criteria cri=Criteria.where("offers.merchantsId").in(userIds);
+	public List<StatisVo> statisMercSuccOrderByUsers(List<Long> userIds) {
+		Criteria cri=Criteria.where("merchantsId").in(userIds);
 		Criteria cri2=Criteria.where("_id.status").gt(0L).lt(8L);
 		TypedAggregation<Order> agg = newAggregation(Order.class,
-				unwind("offers"),
 				match(cri),
-				group("offers.merchantsId","status")
+				group("merchantsId","status")
 					.count().as("total"),
 				match(cri2),
 				group("_id.merchantsId")
 					.sum("total").as("totalSucc")
 					.first("_id.merchantsId").as("merchantsId")
 				);
-		AggregationResults<OrderStatisVo> result=mongoOps.aggregate(agg, OrderStatisVo.class);
-		List<OrderStatisVo> vos=result.getMappedResults();
+		AggregationResults<StatisVo> result=mongoOps.aggregate(agg, StatisVo.class);
+		List<StatisVo> vos=result.getMappedResults();
 		return vos;
 	}
 
 	@Override
-	public List<OrderStatisVo> statisMercFailOrderByUsers(List<Long> userIds) {
-		Criteria cri=Criteria.where("offers.merchantsId").in(userIds);
+	public List<StatisVo> statisMercFailOrderByUsers(List<Long> userIds) {
+		Criteria cri=Criteria.where("merchantsId").in(userIds);
 		Criteria cri2=Criteria.where("_id.status").gt(8L);
 		TypedAggregation<Order> agg = newAggregation(Order.class,
-				unwind("offers"),
 				match(cri),
-				group("offers.merchantsId","status")
+				group("merchantsId","status")
 					.count().as("total"),
 				match(cri2),
 				group("_id.merchantsId")
-					.sum("total").as("totalSucc")
+					.sum("total").as("totalFail")
 					.first("_id.merchantsId").as("merchantsId")
 				);
-		AggregationResults<OrderStatisVo> result=mongoOps.aggregate(agg, OrderStatisVo.class);
-		List<OrderStatisVo> vos=result.getMappedResults();
+		AggregationResults<StatisVo> result=mongoOps.aggregate(agg, StatisVo.class);
+		List<StatisVo> vos=result.getMappedResults();
 		return vos;
 	}
+
+    @Override
+    public List<StatisVo> statisMercTrySuccOrderByUsers(List<Long> userIds) {
+        Criteria cri=Criteria.where("merchantsId").in(userIds);
+        TypedAggregation<Order> agg = newAggregation(Order.class,
+                match(cri),
+                group("merchantsId")
+                    .count().as("totalTrySucc")
+                    .first("merchantsId").as("merchantsId")
+                );
+        AggregationResults<StatisVo> result=mongoOps.aggregate(agg, StatisVo.class);
+        List<StatisVo> vos=result.getMappedResults();
+        return vos;
+    }
+    
+    @Override
+    public List<StatisVo> statisHotProducts(long start,long end,int cid,int limit) {
+        Criteria cri=Criteria.where("cityCode").is(cid);
+        Criteria cri2=Criteria.where("createDate").gte(start).lt(end);
+        TypedAggregation<Order> agg = newAggregation(Order.class,
+                match(cri),
+                match(cri2),
+                project("products"),
+                unwind("products"),
+                group("products.productId")
+                    .first("products.productName").as("productName")
+                    .first("products.productPrice").as("productPrice")
+                    .first("products.productImg").as("productImg")
+                    .sum("products.amount").as("totalAmount"),
+                sort(Direction.DESC,"totalAmount"),
+                limit(limit)
+                );
+        AggregationResults<StatisVo> result=mongoOps.aggregate(agg, StatisVo.class);
+        List<StatisVo> vos=result.getMappedResults();
+        return vos;
+    }
 
 }

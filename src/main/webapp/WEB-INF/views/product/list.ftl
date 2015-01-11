@@ -42,18 +42,17 @@
 			<li><a href="${request.contextPath}/product/cre?pid=${areapSelect}&cid=${areacSelect}&catalog_id=${catalogSelect}" height="500" width="800" mask="true" target="dialog" class="add" title="添加新商品" rel="add_product_info"><span>添加</span></a></li>
 		</ul>
 	</div>
-	<table class="list" width="100%" layoutH="120">
+	<table class="list" width="100%" layoutH="80">
 		<thead>
 			<tr>
-				<th width="20" >序号</th>
-				<th width="150">排序</th>
-				<th width="150">图片</th>
-                <th width="220">名称</th>
-                <th width="220">单价(分)</th>
-                <th width="220">分类</th>
-                <th width="220">城市</th>
-				<th width="50">编辑</th>
-				<th width="50">删除</th>
+				<th>序号</th>
+				<th>排序</th>
+				<th>图片</th>
+                <th>名称</th>
+                <th>单价(分)</th>
+                <th>分类</th>
+                <th>城市</th>
+				<th>操作</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -66,8 +65,8 @@
 			      <td>${item.price!}</td>
 			      <td>${catalogName!}</td>
 			      <td>${cityName!}</td>
-			      <td><a class="btnEdit" href="${request.contextPath}/product/detail/${item.id!}" height="500" width="800" mask="true" target="dialog" title="详细信息" rel="product_info">编辑</a></td>
-			      <td><a class="btnDel" href="${request.contextPath}/product/del?id=${item.id!}"  target="ajaxTodo" title="你确定要删除吗?">移除</a></td>
+			      <td><a class="btnEdit" href="${request.contextPath}/product/detail/${item.id!}" height="500" width="800" mask="true" target="dialog" title="详细信息" rel="product_info">编辑</a>
+			      <a class="btnDel" href="${request.contextPath}/product/del?id=${item.id!}"  target="ajaxTodo" title="你确定要删除吗?">移除</a></td>
 			   </tr>
 			</#list>
 		</tbody>

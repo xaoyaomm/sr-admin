@@ -30,5 +30,7 @@ public interface UserRepository extends MongoRepository<User, Long>{
 	
 	@Query(value="{'type':?3},'createTime':{'$gte':?0,'$lt':?1},'cityCode':?2}")
 	public Page<User> findByType(long start,long end,int cityCode,Pageable pr,UserType type);
+	
+	public List<User> findByPromoCode(String promoCode);
 
 }

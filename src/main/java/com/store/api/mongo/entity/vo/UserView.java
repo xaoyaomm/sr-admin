@@ -38,6 +38,12 @@ public class UserView {
     
     /** 尝试接单数 **/
     private long totalTry=0;
+    
+    /** 尝试接单成功数 **/
+    private long totalTrySucc=0;
+    
+    /** 推广用户数 **/
+    private long totalRecuser=0;
 
     public long getTotalOrder() {
 		return totalOrder;
@@ -94,6 +100,22 @@ public class UserView {
 	public void setTotalTry(long totalTry) {
 		this.totalTry = totalTry;
 	}
+
+    public long getTotalRecuser() {
+        return totalRecuser;
+    }
+
+    public void setTotalRecuser(long totalRecuser) {
+        this.totalRecuser = totalRecuser;
+    }
+
+    public long getTotalTrySucc() {
+        return totalTrySucc;
+    }
+
+    public void setTotalTrySucc(long totalTrySucc) {
+        this.totalTrySucc = totalTrySucc;
+    }
     
     
     

@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.store.api.mongo.dao.OrderStatisDao;
-import com.store.api.mongo.entity.vo.OrderStatisVo;
+import com.store.api.mongo.entity.vo.StatisVo;
 import com.store.api.mongo.service.OrderStatisService;
 
 /**
@@ -29,28 +29,38 @@ public class OrderStatisServiceImpl implements OrderStatisService{
     private OrderStatisDao dao;
 
     @Override
-    public List<OrderStatisVo> statisCustomerOrderByUsers(List<Long> userIds) {
+    public List<StatisVo> statisCustomerOrderByUsers(List<Long> userIds) {
         return dao.statisCustomerOrderByUsers(userIds);
     }
 
 	@Override
-	public List<OrderStatisVo> statisMercTotalOrderByUsers(List<Long> userIds) {
+	public List<StatisVo> statisMercTotalOrderByUsers(List<Long> userIds) {
 		return dao.statisMercTotalOrderByUsers(userIds);
 	}
 
 	@Override
-	public List<OrderStatisVo> statisMercTryOrderByUsers(List<Long> userIds) {
+	public List<StatisVo> statisMercTryOrderByUsers(List<Long> userIds) {
 		return dao.statisMercTryOrderByUsers(userIds);
 	}
 
 	@Override
-	public List<OrderStatisVo> statisMercSuccOrderByUsers(List<Long> userIds) {
+	public List<StatisVo> statisMercSuccOrderByUsers(List<Long> userIds) {
 		return dao.statisMercSuccOrderByUsers(userIds);
 	}
 
 	@Override
-	public List<OrderStatisVo> statisMercFailOrderByUsers(List<Long> userIds) {
+	public List<StatisVo> statisMercFailOrderByUsers(List<Long> userIds) {
 		return dao.statisMercFailOrderByUsers(userIds);
 	}
+
+    @Override
+    public List<StatisVo> statisMercTrySuccOrderByUsers(List<Long> userIds) {
+        return dao.statisMercTrySuccOrderByUsers(userIds);
+    }
+
+    @Override
+    public List<StatisVo> statisHotProducts(long start, long end, int cid, int limit) {
+        return dao.statisHotProducts(start, end, cid, limit);
+    }
 
 }

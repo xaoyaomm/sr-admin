@@ -58,5 +58,13 @@ public interface OrderRepository extends MongoRepository<Order, Long> {
     public Page<Order> findByCreateDateAndStatusAndArea(long start,long end,int[] status,int cityCode,Pageable pr);
     
     public List<Order> findByCustomerIdAndStatusInOrderByCreateDateDesc(long customerId,Long[] status);
+    
+    public List<Order> findByMerchantsIdAndStatusInOrderByCreateDateDesc(long mercId,Long[] status);
+    
+    @Query(value="{'offers':{'$elemMatch':{'merchantsId':?0,'isAct':true}}}")
+    public List<Order> findByMercTryOrders(long mercId);
+    
+    @Query(value="{'offers':{'$elemMatch':{'merchantsId':?0}}}")
+    public List<Order> findByMercReceiveOrders(long mercId);
 
 }

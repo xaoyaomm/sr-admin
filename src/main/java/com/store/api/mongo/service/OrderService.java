@@ -79,9 +79,42 @@ public interface OrderService {
      */
     public List<Order> findByCreateDateAndStatusAndArea(PageBean pageBean,long start,long end,int status,int cityCode);
     
+    /**
+     * 查询抢单成功的商户订单
+     * @param id
+     * @return
+     */
     public List<Order> findByMerchantsId(long id);
     
+    /**
+     * 查询用户下过的订单
+     * @param id
+     * @return
+     */
     public List<Order> findByCustomerId(long id);
     
+    /**
+     * 按状态查询用户下过的订单
+     * @param customerId
+     * @param status
+     * @return
+     */
     public List<Order> findByCustomerIdAndStatusIn(long customerId,Long[] status);
+    
+    /**
+     * 按状态查询商户的订单
+     * @param mercId
+     * @param status
+     * @return
+     */
+    public List<Order> findByMercIdAndStatusIn(long mercId,Long[] status);
+    
+    /**
+     * 查询商户尝试抢的订单
+     * @param mercId
+     * @return
+     */
+    public List<Order> findByMercTryOrders(long mercId);
+    
+    public List<Order> findByMercReceiveOrders(long mercId);
 }
