@@ -65,6 +65,12 @@ public class StatisVo {
     /** 商品总数量 **/
     private long totalAmount=0;
     
+    /** 日期(yyyy-MM-dd) **/
+    private String dateStr="";
+    
+    /** 订单均价(分) **/
+    private long totalAvgPrice=0;
+    
     public long getTotalOrder() {
         return totalOrder;
     }
@@ -200,4 +206,20 @@ public class StatisVo {
     public void setTotalAmount(long totalAmount) {
         this.totalAmount = totalAmount;
     }
+
+	public String getDateStr() {
+		return dateStr;
+	}
+
+	public void setDateStr(String dateStr) {
+		this.dateStr = dateStr;
+	}
+
+	public long getTotalAvgPrice() {
+		return totalAvgPrice;
+	}
+
+	public void setTotalAvgPrice(long totalAvgPrice) {
+		this.totalAvgPrice = totalAvgPrice;
+	}
 }

@@ -163,4 +163,23 @@ public class OrderStatisDaoImpl implements OrderStatisDao {
         return vos;
     }
 
+	@Override
+	public List<StatisVo> statisTotalOrderInfo(long start, long end,int cid) {
+		 Criteria cri=Criteria.where("createDate").gte(start).lt(end).and("cityCode").is(cid);
+	        GroupBy gb=GroupBy.keyFunction("function(doc) {"+
+                    "return {dateStr:dateFormat(new Date(doc.createDate),'yyyy-MM-dd')};"+
+                "}");
+	        gb.initialDocument("{totalOrder:0,totalSucc:0,totalFail:0,totalNone:0,totalPrice:0}");
+	        gb.reduceFunction("function(doc, prev) { prev.totalOrder += 1;if(doc.status>0&&doc.status<8)prev.totalSucc +=1;"+
+	        		"if(doc.status==9||doc.status==10)prev.totalFail+=1;if(doc.status==0)prev.totalNone +=1;"+
+	        		"prev.totalPrice +=doc.totalPrice;}");
+	        gb.finalizeFunction("function(result){result.totalAvgPrice=result.totalPrice/result.totalOrder;}");
+	        GroupByResults<StatisVo> result=mongoOps.group(cri, "order", gb, StatisVo.class);
+	        List<StatisVo> vos=new ArrayList<StatisVo>();
+	        for (StatisVo vo : result) {
+	            vos.add(vo);
+	        }
+	         return vos;
+	}
+
 }

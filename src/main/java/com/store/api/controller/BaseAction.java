@@ -1,5 +1,7 @@
 package com.store.api.controller;
 
+import java.text.DecimalFormat;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -17,6 +19,8 @@ public class BaseAction {
     protected HttpServletResponse response;
 
     protected HttpSession session;
+    
+    protected DecimalFormat nfmt = new DecimalFormat("#.#");
     
     @ModelAttribute
     public void setReqAndRes(HttpServletRequest request, HttpServletResponse response) {

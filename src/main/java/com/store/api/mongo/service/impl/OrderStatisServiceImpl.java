@@ -63,4 +63,9 @@ public class OrderStatisServiceImpl implements OrderStatisService{
         return dao.statisHotProducts(start, end, cid, limit);
     }
 
+	@Override
+	public List<StatisVo> statisTotalOrderInfo(long start, long end,int cid) {
+		return dao.statisTotalOrderInfo(start, end, cid);
+	}
+
 }

@@ -51,4 +51,16 @@ public class UserStatisDaoImpl implements UserStatisDao {
         return vos;
     }
 
+	@Override
+	public List<StatisVo> statisNewCustomer(long start, long end) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<StatisVo> statisNewMerc(long start, long end) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

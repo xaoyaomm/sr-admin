@@ -73,7 +73,7 @@ public class Constant {
         } catch (IOException ex) {
             LOG.error("load config.properties file fail:" + ex.getMessage());
         }
-        PHOTO_PATH=props.getProperty("attachPath","/data/pic/product/");
+        PHOTO_PATH=props.getProperty("attachPath","/data/attach/pic/product");
         IMG_URL_PRE=props.getProperty("imgAddress","http://192.168.1.51:81");
         SEARCH_DISTANCE=PropertiesUtil.getLongProperty(props, "searchDistance");
         COOKIE_DOMAIN=props.getProperty("cookieDomain","202.96.155.42");

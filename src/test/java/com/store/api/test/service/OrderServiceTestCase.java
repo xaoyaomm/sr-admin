@@ -81,6 +81,13 @@ public class OrderServiceTestCase extends BaseServiceTestCase{
         ids.add(113L);
 //        dao.statisHotProducts();
     }
+    
+    @Test
+    public void testStatisTotalOrderInfo(){
+    	long start=1420387200000L;
+    	long end=1421061499035L;
+        dao.statisTotalOrderInfo(start, end);
+    }
 
 
 }

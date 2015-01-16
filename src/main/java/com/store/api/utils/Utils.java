@@ -6,6 +6,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -79,6 +80,35 @@ public class Utils {
 		else
 			sm = new SimpleDateFormat(format);
 		return sm.format(date);
+	}
+	
+	public static List<String> getDateStrWithRange(String start,String end){
+		SimpleDateFormat sm=new SimpleDateFormat("yyyy-MM-dd");
+		List<String> dataStrList=new LinkedList<String>();
+		try {
+			Date startDate=sm.parse(start);
+			Date endDate=sm.parse(end);
+			int i=0;
+			while(true){ 	
+			Calendar cal = Calendar.getInstance();
+			 	cal.setTime(startDate);
+	            cal.set(Calendar.HOUR_OF_DAY, 0);
+	            cal.set(Calendar.MINUTE, 0);
+	            cal.set(Calendar.SECOND, 0);
+	            cal.add(Calendar.DAY_OF_MONTH, +i);
+	            Date temp=cal.getTime();
+	            if(temp.getTime()<=endDate.getTime())
+	            	dataStrList.add(sm.format(cal.getTime()));
+	            else
+	            	break;
+	            i++;
+			}
+	            	
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return dataStrList;
 	}
 
 	/**
@@ -292,6 +322,7 @@ public class Utils {
 
 	public static void main(String[] args) {
 		System.out.println(formatDate(new Date(getNextDayMills()), "yyyy-MM-dd HH:mm:ss"));
+		System.out.println(getDateStrWithRange("2015-01-01","2015-01-10").toString());
 
 	}
 }

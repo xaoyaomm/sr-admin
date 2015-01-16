@@ -70,5 +70,13 @@ public interface OrderStatisDao {
      * @return
      */
     public List<StatisVo> statisHotProducts(long start,long end,int cid,int limit);
+    
+    /**
+     * 按日期分组统计时间段内的订单情况
+     * @param start
+     * @param end
+     * @return
+     */
+    public List<StatisVo> statisTotalOrderInfo(long start,long end,int cid);
 
 }

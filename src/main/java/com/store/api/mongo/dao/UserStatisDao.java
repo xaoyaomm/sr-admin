@@ -24,5 +24,21 @@ public interface UserStatisDao {
      * @return
      */
     public List<StatisVo> findByMercRec(List<String> codes);
+    
+    /**
+     * 查询时间段内新增的用户数
+     * @param start
+     * @param end
+     * @return
+     */
+    public List<StatisVo> statisNewCustomer(long start,long end);
+    
+    /**
+     * 查询时间段内新增的商户数
+     * @param start
+     * @param end
+     * @return
+     */
+    public List<StatisVo> statisNewMerc(long start,long end);
 
 }
