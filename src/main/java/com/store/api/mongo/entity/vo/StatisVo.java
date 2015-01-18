@@ -7,7 +7,6 @@
  */
 package com.store.api.mongo.entity.vo;
 
-import java.util.Map;
 
 /**
  * 
@@ -70,6 +69,27 @@ public class StatisVo {
     
     /** 订单均价(分) **/
     private long totalAvgPrice=0;
+    
+    /** 下单用户数 **/
+    private long totalOrderUsers=0;
+    
+    /** 接单商户数 **/
+    private long totalOrderMercs=0;
+    
+    /** 新增用户数 **/
+    private long totalNewCustomer=0;
+    
+    /** 新增临时用户数 **/
+    private long totalNewVisitor=0;
+    
+    /** 新增商户数 **/
+    private long totalNewMerc=0;
+    
+    /** 登录用户数 **/
+    private long totalLoginUsers=0;
+    
+    /** 登录商户数 **/
+    private long totalLoginMerc=0;
     
     public long getTotalOrder() {
         return totalOrder;
@@ -222,4 +242,60 @@ public class StatisVo {
 	public void setTotalAvgPrice(long totalAvgPrice) {
 		this.totalAvgPrice = totalAvgPrice;
 	}
+
+    public long getTotalOrderUsers() {
+        return totalOrderUsers;
+    }
+
+    public long getTotalOrderMercs() {
+        return totalOrderMercs;
+    }
+
+    public void setTotalOrderUsers(long totalOrderUsers) {
+        this.totalOrderUsers = totalOrderUsers;
+    }
+
+    public void setTotalOrderMercs(long totalOrderMercs) {
+        this.totalOrderMercs = totalOrderMercs;
+    }
+
+    public long getTotalNewCustomer() {
+        return totalNewCustomer;
+    }
+
+    public long getTotalNewVisitor() {
+        return totalNewVisitor;
+    }
+
+    public long getTotalNewMerc() {
+        return totalNewMerc;
+    }
+
+    public long getTotalLoginUsers() {
+        return totalLoginUsers;
+    }
+
+    public long getTotalLoginMerc() {
+        return totalLoginMerc;
+    }
+
+    public void setTotalNewCustomer(long totalNewCustomer) {
+        this.totalNewCustomer = totalNewCustomer;
+    }
+
+    public void setTotalNewVisitor(long totalNewVisitor) {
+        this.totalNewVisitor = totalNewVisitor;
+    }
+
+    public void setTotalNewMerc(long totalNewMerc) {
+        this.totalNewMerc = totalNewMerc;
+    }
+
+    public void setTotalLoginUsers(long totalLoginUsers) {
+        this.totalLoginUsers = totalLoginUsers;
+    }
+
+    public void setTotalLoginMerc(long totalLoginMerc) {
+        this.totalLoginMerc = totalLoginMerc;
+    }
 }

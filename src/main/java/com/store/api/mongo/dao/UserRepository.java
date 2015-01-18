@@ -28,9 +28,23 @@ public interface UserRepository extends MongoRepository<User, Long>{
 	@Query(value="{'type':?0,'status':1,'location':{'$geoWithin':{'$centerSphere':[?1,?2]}}}")
 	public List<User> geoSearch(UserType type,double[] location,double distance);
 	
-	@Query(value="{'type':?3},'createTime':{'$gte':?0,'$lt':?1},'cityCode':?2}")
+	@Query(value="{'type':?3,'createTime':{'$gte':?0,'$lt':?1},'cityCode':?2}")
 	public Page<User> findByType(long start,long end,int cityCode,Pageable pr,UserType type);
 	
 	public List<User> findByPromoCode(String promoCode);
+	
+	/**
+	 * 按注册时间段统计新增用户
+	 * @return
+	 */
+	@Query(value="{'type':?3,'createTime':{'$gte':?0,'$lt':?1},'cityCode':?2}",count=true)
+	public int findUserCountByTypeAndCreaeDate(long start,long end,int cityCode,UserType type);
+	
+	/**
+	 * 按最后使用时间段统计登录用户
+	 * @return
+	 */
+	@Query(value="{'type':{'$in':?3},'lastUserTime':{'$gte':?0,'$lt':?1},'cityCode':?2}",count=true)
+	public int findUserCountByTypeAndLoginDate(long start,long end,int cityCode,UserType[] types);
 
 }

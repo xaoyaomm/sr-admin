@@ -68,4 +68,24 @@ public class OrderStatisServiceImpl implements OrderStatisService{
 		return dao.statisTotalOrderInfo(start, end, cid);
 	}
 
+    @Override
+    public int statisTotalOrderUsers(long start, long end, int cid) {
+        return dao.statisTotalOrderUsers(start, end, cid);
+    }
+
+    @Override
+    public int statisTotalOrderMerc(long start, long end, int cid) {
+        return dao.statisTotalOrderMerc(start, end, cid);
+    }
+
+    @Override
+    public List<StatisVo> statisTotalOrderMercsGroupDay(long start, long end, int cid) {
+        return dao.statisTotalOrderMercsGroupDay(start, end, cid);
+    }
+
+    @Override
+    public List<StatisVo> statisTotalOrderUsersGroupDay(long start, long end, int cid) {
+        return dao.statisTotalOrderUsersGroupDay(start, end, cid);
+    }
+
 }

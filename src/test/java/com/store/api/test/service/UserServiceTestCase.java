@@ -6,6 +6,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.store.api.mongo.dao.UserStatisDao;
 import com.store.api.mongo.entity.User;
 import com.store.api.mongo.entity.enumeration.UserType;
 import com.store.api.mongo.entity.vo.UserSearch;
@@ -15,6 +16,9 @@ public class UserServiceTestCase extends BaseServiceTestCase {
 	
 	@Autowired
 	private UserService service;
+	
+	@Autowired
+	private UserStatisDao userStatisDao;
 	
 	@Test
 	public void testSave(){
@@ -47,4 +51,11 @@ public class UserServiceTestCase extends BaseServiceTestCase {
 		List<UserSearch> users=service.geoSearch(UserType.merchants, new double[]{114.036956,22.616613}, 2369);
 		System.out.println(users.size());
 	}
+	
+	@Test
+    public void testStatisTotalNewCustomer(){
+        long start=1420041600000L;
+        long end=1421061499035L;
+        userStatisDao.statisTotalNewCustomer(start, end,340);
+    }
 }

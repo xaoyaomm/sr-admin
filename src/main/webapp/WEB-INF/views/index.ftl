@@ -129,7 +129,7 @@ $(function(){
 								<ul>
 									<li><a href="/customer/search" target="navTab" rel="tab_customer">用户管理</a></li>
 									<li><a href="/merchants/search" target="navTab" rel="tab_merchants">商户管理</a></li>
-									<li><a href="/statis/user" target="navTab" rel="tab_statis_user">用户统计</a></li>
+									<li><a href="/statis/users" target="navTab" rel="tab_statis_user">用户统计</a></li>
 								</ul>
 							</li>
 							<li><a>订单管理</a>

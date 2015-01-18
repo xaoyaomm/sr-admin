@@ -86,7 +86,7 @@
 		   <td>${totalAvgPrice!/ 100}元
 		   <a href="${request.contextPath}/statis/orderchart?data=${totalAvgPriceListStr?url}&dates=${dateStr?url}" width="1500" height="700" mask="true" target="dialog" title="平均价格统计" rel="order_statis_info"><img src="${request.contextPath}/styles/images/chart.png"/></a>
 		   </td>
-		   <th>
+		<tr>
 		</tbody>
 </table>
 </@dwz.fieldset>

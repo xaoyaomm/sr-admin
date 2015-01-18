@@ -26,19 +26,48 @@ public interface UserStatisDao {
     public List<StatisVo> findByMercRec(List<String> codes);
     
     /**
-     * 查询时间段内新增的用户数
+     * 按时间段分组统计注册用户数
      * @param start
      * @param end
+     * @param cid
      * @return
      */
-    public List<StatisVo> statisNewCustomer(long start,long end);
+    public List<StatisVo> statisTotalNewCustomer(long start,long end,int cid);
     
     /**
-     * 查询时间段内新增的商户数
+     * 按时间段分组统计临时用户数
      * @param start
      * @param end
+     * @param cid
      * @return
      */
-    public List<StatisVo> statisNewMerc(long start,long end);
-
+    public List<StatisVo> statisTotalNewVisitor(long start,long end,int cid);
+    
+    /**
+     * 按时间段分组统计注册商户数
+     * @param start
+     * @param end
+     * @param cid
+     * @return
+     */
+    public List<StatisVo> statisTotalNewMerc(long start,long end,int cid);
+    
+    /**
+     * 按时间段分组统计登录用户数
+     * @param start
+     * @param end
+     * @param cid
+     * @return
+     */
+    public List<StatisVo> statisTotalLoginUsers(long start,long end,int cid);
+    
+    /**
+     * 按时间段分组统计登录商户
+     * @param start
+     * @param end
+     * @param cid
+     * @return
+     */
+    public List<StatisVo> statisTotalLoginMerc(long start,long end,int cid);
+    
 }

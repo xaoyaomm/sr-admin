@@ -197,4 +197,39 @@ public class UserServiceImpl implements UserService {
     public List<User> findByPromoCode(String promoCode) {
         return repository.findByPromoCode(promoCode);
     }
+
+    @Override
+    public int findUserCountByTypeAndCreaeDate(long start, long end, int cityCode, UserType type) {
+        return repository.findUserCountByTypeAndCreaeDate(start, end, cityCode, type);
+    }
+
+    @Override
+    public int findUserCountByTypeAndLoginDate(long start, long end, int cityCode, UserType[] types) {
+        return repository.findUserCountByTypeAndLoginDate(start, end, cityCode, types);
+    }
+
+    @Override
+    public List<StatisVo> statisTotalNewCustomer(long start, long end, int cid) {
+        return userStatisDao.statisTotalNewCustomer(start, end, cid);
+    }
+
+    @Override
+    public List<StatisVo> statisTotalNewVisitor(long start, long end, int cid) {
+        return userStatisDao.statisTotalNewVisitor(start, end, cid);
+    }
+
+    @Override
+    public List<StatisVo> statisTotalNewMerc(long start, long end, int cid) {
+        return userStatisDao.statisTotalNewMerc(start, end, cid);
+    }
+
+    @Override
+    public List<StatisVo> statisTotalLoginUsers(long start, long end, int cid) {
+        return userStatisDao.statisTotalLoginUsers(start, end, cid);
+    }
+
+    @Override
+    public List<StatisVo> statisTotalLoginMerc(long start, long end, int cid) {
+        return userStatisDao.statisTotalLoginMerc(start, end, cid);
+    }
 }

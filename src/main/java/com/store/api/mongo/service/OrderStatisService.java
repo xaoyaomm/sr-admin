@@ -79,5 +79,41 @@ public interface OrderStatisService {
      * @return
      */
     public List<StatisVo> statisTotalOrderInfo(long start,long end,int cid);
+    
+    /**
+     * 统计下单用户数
+     * @param start
+     * @param end
+     * @param cid
+     * @return
+     */
+    public int statisTotalOrderUsers(long start,long end,int cid);
+    
+    /**
+     * 统计成单商户数
+     * @param start
+     * @param end
+     * @param cid
+     * @return
+     */
+    public int statisTotalOrderMerc(long start,long end,int cid);
+    
+    /**
+     * 按时间段分组统计成单商户数
+     * @param start
+     * @param end
+     * @param cid
+     * @return
+     */
+    public List<StatisVo> statisTotalOrderMercsGroupDay(long start,long end,int cid);
+    
+    /**
+     * 按时间段分组统计下单用户数
+     * @param start
+     * @param end
+     * @param cid
+     * @return
+     */
+    public List<StatisVo> statisTotalOrderUsersGroupDay(long start,long end,int cid);
 
 }

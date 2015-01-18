@@ -31,6 +31,7 @@ import org.springframework.stereotype.Repository;
 
 import com.store.api.mongo.dao.OrderStatisDao;
 import com.store.api.mongo.entity.Order;
+import com.store.api.mongo.entity.enumeration.UserType;
 import com.store.api.mongo.entity.vo.StatisVo;
 
 /**
@@ -80,6 +81,7 @@ public class OrderStatisDaoImpl implements OrderStatisDao {
 		Criteria cri=Criteria.where("offers.merchantsId").in(userIds);
 		Criteria cri2=Criteria.where("_id.isAct").is(Boolean.TRUE);
 		TypedAggregation<Order> agg = newAggregation(Order.class,
+		        project("offers"),
 				unwind("offers"),
 				match(cri),
 				group("offers.merchantsId","offers.isAct")
@@ -181,5 +183,69 @@ public class OrderStatisDaoImpl implements OrderStatisDao {
 	        }
 	         return vos;
 	}
+
+    @Override
+    public int statisTotalOrderUsers(long start, long end, int cid) {
+        Criteria cri=Criteria.where("cityCode").is(cid);
+        Criteria cri2=Criteria.where("createDate").gte(start).lt(end);
+        TypedAggregation<Order> agg = newAggregation(Order.class,
+                match(cri),
+                match(cri2),
+                project("customerId"),
+                group("customerId")
+                );
+        AggregationResults<StatisVo> result=mongoOps.aggregate(agg, StatisVo.class);
+        List<StatisVo> vos=result.getMappedResults();
+        return vos.size();
+    }
+
+    @Override
+    public int statisTotalOrderMerc(long start, long end, int cid) {
+        Criteria cri=Criteria.where("cityCode").is(cid);
+        Criteria cri2=Criteria.where("createDate").gte(start).lt(end);
+        TypedAggregation<Order> agg = newAggregation(Order.class,
+                match(cri),
+                match(cri2),
+                project("merchantsId"),
+                group("merchantsId")
+                );
+        AggregationResults<StatisVo> result=mongoOps.aggregate(agg, StatisVo.class);
+        List<StatisVo> vos=result.getMappedResults();
+        return vos.size();
+    }
+
+    @Override
+    public List<StatisVo> statisTotalOrderMercsGroupDay(long start, long end, int cid) {
+        Criteria cri=Criteria.where("createDate").gte(start).lt(end).and("cityCode").is(cid).and("merchantsId").gt(0);
+        GroupBy gb=GroupBy.keyFunction("function(doc) {"+
+                "return {dateStr:dateFormat(new Date(doc.createDate),'yyyy-MM-dd')};"+
+            "}");
+        gb.initialDocument("{totalOrderMercs:0,orderMap : []}");
+        gb.reduceFunction("function(doc, prev) {if(prev.orderMap.indexOf(doc.merchantsId+'')<0){prev.totalOrderMercs = prev.orderMap.push(doc.merchantsId+'');}}");
+        gb.finalizeFunction("function(result){result.orderMap=[];}");
+        GroupByResults<StatisVo> result=mongoOps.group(cri, "order", gb, StatisVo.class);
+        List<StatisVo> vos=new ArrayList<StatisVo>();
+        for (StatisVo vo : result) {
+            vos.add(vo);
+        }
+         return vos;
+    }
+
+    @Override
+    public List<StatisVo> statisTotalOrderUsersGroupDay(long start, long end, int cid) {
+        Criteria cri=Criteria.where("createDate").gte(start).lt(end).and("cityCode").is(cid);
+        GroupBy gb=GroupBy.keyFunction("function(doc) {"+
+                "return {dateStr:dateFormat(new Date(doc.createDate),'yyyy-MM-dd')};"+
+            "}");
+        gb.initialDocument("{totalOrderUsers:0,orderMap : []}");
+        gb.reduceFunction("function(doc, prev) {if(prev.orderMap.indexOf(doc.customerId+'')<0){prev.totalOrderUsers = prev.orderMap.push(doc.customerId+'');}}");
+        gb.finalizeFunction("function(result){result.orderMap=[];}");
+        GroupByResults<StatisVo> result=mongoOps.group(cri, "order", gb, StatisVo.class);
+        List<StatisVo> vos=new ArrayList<StatisVo>();
+        for (StatisVo vo : result) {
+            vos.add(vo);
+        }
+         return vos;
+    }
 
 }
