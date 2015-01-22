@@ -64,7 +64,9 @@ public class CustomerController extends BaseAction {
 			@RequestParam(value = "cid", required = false, defaultValue = "340") int cid,
 			@RequestParam(value = "start", required = false, defaultValue = "") String start,
 			@RequestParam(value = "end", required = false, defaultValue = "") String end,
-			@RequestParam(value = "type", required = false, defaultValue = "1") int type) {
+			@RequestParam(value = "type", required = false, defaultValue = "1") int type,
+			@RequestParam(value = "custName", required = false, defaultValue = "") String custName,
+			@RequestParam(value = "custPhone", required = false, defaultValue = "") String custPhone) {
 		List<Area> areapList = areaService.findByAllTop();
 		List<Area> areacList = areaService.findByParentId(pid);
 		long startTime=0;
@@ -86,7 +88,12 @@ public class CustomerController extends BaseAction {
 		}else{
 			endTime=Utils.parseDateStr(end,true);
 		}
-		List<UserView> userList=userService.findByCustomer(pageBean, startTime, endTime,cid, type==1?UserType.customer:UserType.visitor);
+		List<UserView> userList=userService.findByCustomer(pageBean, startTime, endTime,cid, type==1?UserType.customer:UserType.visitor,custName,custPhone);
+		StringBuffer sb=new StringBuffer();
+		if(!Utils.isEmpty(custName))
+			sb.append("按用户名称\"").append(custName).append("\"搜索,");
+		if(!Utils.isEmpty(custPhone))
+			sb.append("按电话\"").append(custPhone).append("\"搜索,");
 
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("page", pageBean);
@@ -98,6 +105,7 @@ public class CustomerController extends BaseAction {
 		result.put("start", start);
 		result.put("end", end);
 		result.put("type", type);
+		result.put("searchStr_cust", sb.toString());
 		return new ModelAndView("customer/list", result);
 	}
 	

@@ -64,7 +64,9 @@ public class MerchantsController extends BaseAction {
 	public ModelAndView search(PageBean pageBean,@RequestParam(value = "pid", required = false, defaultValue = "7") int pid,
 			@RequestParam(value = "cid", required = false, defaultValue = "340") int cid,
 			@RequestParam(value = "start", required = false, defaultValue = "") String start,
-			@RequestParam(value = "end", required = false, defaultValue = "") String end) {
+			@RequestParam(value = "end", required = false, defaultValue = "") String end,
+			@RequestParam(value = "mercName", required = false, defaultValue = "") String mercName,
+			@RequestParam(value = "mercPhone", required = false, defaultValue = "") String mercPhone) {
 		List<Area> areapList = areaService.findByAllTop();
 		List<Area> areacList = areaService.findByParentId(pid);
 		long startTime=0;
@@ -86,8 +88,13 @@ public class MerchantsController extends BaseAction {
 		}else{
 			endTime=Utils.parseDateStr(end,true);
 		}
-		List<UserView> mercList=userService.findByMerc(pageBean, startTime, endTime,cid);
 
+		List<UserView> mercList=userService.findByMerc(pageBean, startTime, endTime,cid,mercName, mercPhone);
+		StringBuffer sb=new StringBuffer();
+		if(!Utils.isEmpty(mercName))
+			sb.append("按商户名\"").append(mercName).append("\"搜索,");
+		if(!Utils.isEmpty(mercPhone))
+			sb.append("按电话\"").append(mercPhone).append("\"搜索,");
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("page", pageBean);
 		result.put("mercList", mercList);
@@ -97,6 +104,7 @@ public class MerchantsController extends BaseAction {
 		result.put("areacSelect", cid);
 		result.put("start", start);
 		result.put("end", end);
+		result.put("searchStr_merc", sb.toString());
 		return new ModelAndView("merchants/list", result);
 	}
 	

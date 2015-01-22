@@ -50,6 +50,20 @@
 					<input type="submit" value="搜索" onclick=""/>
 				</td>
 			</tr>
+			<tr>
+				<td>
+					用户名称：<input type="text" name="custName" value=""/>
+				</td>
+				<td>
+					用户电话：<input type="text" name="custPhone" value=""/>
+				</td>
+				<td>
+					<input type="submit" value="按用户信息搜索" onclick=""/>
+				</td>
+				<td>
+                    <span style="color:red">${searchStr_cust!}</span>
+                </td>
+			</tr>
 		</table>
 		
 	</div>           

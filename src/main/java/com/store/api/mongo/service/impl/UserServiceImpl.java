@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +26,7 @@ import com.store.api.mongo.service.OrderService;
 import com.store.api.mongo.service.OrderStatisService;
 import com.store.api.mongo.service.SequenceService;
 import com.store.api.mongo.service.UserService;
+import com.store.api.utils.Utils;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -106,10 +108,14 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<UserView> findByCustomer(PageBean pageBean, long startTime, long endTime, int cid,UserType type) {
+	public List<UserView> findByCustomer(PageBean pageBean, long startTime, long endTime, int cid,UserType type,String userName,String phone) {
 		int page=pageBean.getPlainPageNum()<0?0:pageBean.getPlainPageNum()-1;
 		PageRequest pr=new PageRequest(page, pageBean.getNumPerPage(), Direction.DESC,"createTime");
-		Page<User> users=repository.findByType(startTime, endTime, cid, pr,type);
+		Page<User> users=null;
+		if(!Utils.isEmpty(userName) || !Utils.isEmpty(phone))
+			users=findByUserNameAndPhoneWithCustomer(userName, phone, pr);
+		else
+			users=repository.findByType(startTime, endTime, cid, pr,type);
 		pageBean.setTotalCount(users.getTotalElements());
         pageBean.setTotalPage(users.getTotalPages());
         List<UserView> uvs=new ArrayList<UserView>();
@@ -134,10 +140,14 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<UserView> findByMerc(PageBean pageBean, long startTime, long endTime, int cid) {
+	public List<UserView> findByMerc(PageBean pageBean, long startTime, long endTime, int cid,String userName,String phone) {
 		int page=pageBean.getPlainPageNum()<0?0:pageBean.getPlainPageNum()-1;
 		PageRequest pr=new PageRequest(page, pageBean.getNumPerPage(), Direction.DESC,"createTime");
-		Page<User> users=repository.findByType(startTime, endTime, cid, pr,UserType.merchants);
+		Page<User> users=null;
+		if(!Utils.isEmpty(userName) && !Utils.isEmpty(phone))
+			users=findByUserNameAndPhoneWithMerc(userName, phone, pr);
+		else
+			users=repository.findByType(startTime, endTime, cid, pr,UserType.merchants);
 		pageBean.setTotalCount(users.getTotalElements());
         pageBean.setTotalPage(users.getTotalPages());
         List<UserView> uvs=new ArrayList<UserView>();
@@ -232,4 +242,28 @@ public class UserServiceImpl implements UserService {
     public List<StatisVo> statisTotalLoginMerc(long start, long end, int cid) {
         return userStatisDao.statisTotalLoginMerc(start, end, cid);
     }
+
+	private Page<User> findByUserNameAndPhoneWithMerc(String userName,
+			String phone,Pageable pr) {
+		if(!Utils.isEmpty(userName) && !Utils.isEmpty(phone))
+			return repository.findByNickNameLikeAndPhoneAndTypeIn(userName, phone, new UserType[]{UserType.merchants},pr);
+		else if(!Utils.isEmpty(userName))
+			return repository.findByNickNameLikeAndTypeIn(userName, new UserType[]{UserType.merchants},pr);
+		else if(!Utils.isEmpty(phone))
+			return repository.findByPhoneAndTypeIn(phone, new UserType[]{UserType.merchants},pr);
+		else
+			return null;
+	}
+
+	public Page<User> findByUserNameAndPhoneWithCustomer(String userName,
+			String phone,Pageable pr) {
+		if(!Utils.isEmpty(userName) && !Utils.isEmpty(phone))
+			return repository.findByNickNameLikeAndPhoneAndTypeIn(userName, phone, new UserType[]{UserType.customer,UserType.visitor},pr);
+		else if(!Utils.isEmpty(userName))
+			return repository.findByNickNameLikeAndTypeIn(userName, new UserType[]{UserType.customer,UserType.visitor},pr);
+		else if(!Utils.isEmpty(phone))
+			return repository.findByPhoneAndTypeIn(phone, new UserType[]{UserType.customer,UserType.visitor},pr);
+		else
+			return null;
+	}
 }

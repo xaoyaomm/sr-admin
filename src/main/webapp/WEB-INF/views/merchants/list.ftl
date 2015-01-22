@@ -42,12 +42,28 @@
 				<td>
 					<input type="submit" value="搜索" onclick=""/>
 				</td>
+				
 				<td>
-				<span style="color:red">成功订单数：已抢到单且未被取消或标记未送达的订单</span>
+                    <span style="color:red">成功订单数：已抢到单且未被取消或标记未送达的订单</span>
+                </td>
+                <td>
+                    <span style="color:red">失败订单数：已抢到单且被取消或标记未送达的订单</span>
+                </td>
+                
+			</tr>
+			<tr>
+				<td>
+					商户名称：<input type="text" name="mercName" value=""/>
 				</td>
 				<td>
-				<span style="color:red">失败订单数：已抢到单且被取消或标记未送达的订单</span>
+					商户电话：<input type="text" name="mercPhone" value=""/>
 				</td>
+				<td>
+					<input type="submit" value="按商户信息搜索" onclick=""/>
+				</td>
+				<td>
+                    <span style="color:red">${searchStr_merc!}</span>
+                </td>
 			</tr>
 		</table>
 		

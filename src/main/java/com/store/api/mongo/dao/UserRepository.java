@@ -46,5 +46,14 @@ public interface UserRepository extends MongoRepository<User, Long>{
 	 */
 	@Query(value="{'type':{'$in':?3},'lastUserTime':{'$gte':?0,'$lt':?1},'cityCode':?2}",count=true)
 	public int findUserCountByTypeAndLoginDate(long start,long end,int cityCode,UserType[] types);
+	
+	/** 按昵称和用户类型搜索 **/
+	public Page<User> findByNickNameLikeAndTypeIn(String name,UserType[] types,Pageable pr);
+	
+	/** 按手机号和用户类型搜索 **/
+	public Page<User> findByPhoneAndTypeIn(String phone,UserType[] types,Pageable pr);
+	
+	/** 按昵称,手机号和用户类型搜索 **/
+	public Page<User> findByNickNameLikeAndPhoneAndTypeIn(String name,String phone,UserType[] types,Pageable pr);
 
 }

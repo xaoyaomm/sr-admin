@@ -24,6 +24,22 @@ public interface UserService {
 	
 	public User findByUuid(String uuid);
 	
+//	/**
+//	 * 按商户名和手机号查询商户
+//	 * @param userName
+//	 * @param phone
+//	 * @return
+//	 */
+//	public List<User> findByUserNameAndPhoneWithMerc(String userName,String phone);
+//	
+//	/**
+//	 * 按用户名和手机号查询商户
+//	 * @param userName
+//	 * @param phone
+//	 * @return
+//	 */
+//	public List<User> findByUserNameAndPhoneWithCustomer(String userName,String phone);
+	
 	/**
 	 * 按地址位置搜索商户
 	 * @param type   用户类型
@@ -33,9 +49,9 @@ public interface UserService {
 	 */
 	public List<UserSearch> geoSearch(UserType type,double[] location,long distance);
 	
-	public List<UserView> findByCustomer(PageBean pageBean,long startTime, long endTime, int cid,UserType type);
+	public List<UserView> findByCustomer(PageBean pageBean,long startTime, long endTime, int cid,UserType type,String userName,String phone);
 	
-	public List<UserView> findByMerc(PageBean pageBean,long startTime, long endTime, int cid);
+	public List<UserView> findByMerc(PageBean pageBean,long startTime, long endTime, int cid,String userName,String phone);
 	
 	public List<User> findByPromoCode(String promoCode);
 	
