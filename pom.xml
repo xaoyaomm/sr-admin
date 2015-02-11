@@ -277,9 +277,9 @@
 				<configuration>
 					<source>1.7</source>
 					<target>1.7</target>
-					<compilerArguments>
+					<!-- <compilerArguments>
 						<extdirs>lib</extdirs>
-					</compilerArguments>
+					</compilerArguments> -->
 				</configuration>
 			</plugin>
 			<plugin>

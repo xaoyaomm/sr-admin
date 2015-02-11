@@ -30,9 +30,19 @@ public class Constant {
     public static final String PHOTO_PATH;
     
     /**
+     * APP文件存放物理路径
+     */
+    public static final String APP_PATH;
+    
+    /**
      * 图片URL地址前缀
      */
     public static final String IMG_URL_PRE;
+    
+    /**
+     * APP下载地址前缀
+     */
+    public static final String APP_URL_PRE;
     
     /**
      * SESSION中用户对象对应KEY值
@@ -73,8 +83,10 @@ public class Constant {
         } catch (IOException ex) {
             LOG.error("load config.properties file fail:" + ex.getMessage());
         }
-        PHOTO_PATH=props.getProperty("attachPath","/data/attach/pic/product");
+        PHOTO_PATH=props.getProperty("picPath","/data/attach/pic/product/");
+        APP_PATH=props.getProperty("appPath","/data/attach/pic/app/");
         IMG_URL_PRE=props.getProperty("imgAddress","http://192.168.1.51:81");
+        APP_URL_PRE=props.getProperty("appAddress","http://192.168.1.51:81");
         SEARCH_DISTANCE=PropertiesUtil.getLongProperty(props, "searchDistance");
         COOKIE_DOMAIN=props.getProperty("cookieDomain","202.96.155.42");
         PUSH_IOS_ENV_DEV=PropertiesUtil.getBooleanProperty(props, "ios_env_dev", true);

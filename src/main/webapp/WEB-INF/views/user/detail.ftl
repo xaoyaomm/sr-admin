@@ -13,7 +13,7 @@
 		</tr>
 		<tr>
 		   <th>新密码：</th>
-		   <td><input type="text" name="pwd" value="" /></td>
+		   <td><input type="password" name="pwd" value="" /></td>
 		</tr>
 		<tr>
 		   <th>昵称：</th>

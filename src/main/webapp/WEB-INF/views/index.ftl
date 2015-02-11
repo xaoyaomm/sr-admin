@@ -76,7 +76,7 @@ $(function(){
         loginUrl:"",	// 跳到登录页面
 		statusCode:{ok:200, error:300, timeout:301}, //【可选】
 		pageInfo:{pageNum:"pageNum", numPerPage:"numPerPage", orderField:"orderField", orderDirection:"orderDirection"}, //【可选】
-		debug:true,	// 调试模式 【true|false】
+		debug:false,	// 调试模式 【true|false】
 		callback:function(){
 			initEnv();
 			$("#themeList").theme({themeBase:"${request.contextPath}/styles/store/themes"}); // themeBase 相对于index页面的主题base路径
@@ -123,30 +123,38 @@ $(function(){
 					<div class="accordionContent">
 						<ul class="tree treeFolder"> 
 							<#if user.roleId == 1>
-							<li><a href="/user/list" target="navTab" rel="tab_user">后台用户管理</a></li>
+							<li><a href="user/list" target="navTab" rel="tab_user">后台用户管理</a></li>
 							</#if>
 							<li><a>用户管理</a>
 								<ul>
-									<li><a href="/customer/search" target="navTab" rel="tab_customer">用户管理</a></li>
-									<li><a href="/merchants/search" target="navTab" rel="tab_merchants">商户管理</a></li>
-									<li><a href="/statis/users" target="navTab" rel="tab_statis_user">用户统计</a></li>
+									<li><a href="customer/search" target="navTab" rel="tab_customer">用户管理</a></li>
+									<li><a href="merchants/search" target="navTab" rel="tab_merchants">商户管理</a></li>
+									<li><a href="statis/users" target="navTab" rel="tab_merchants">用户统计</a></li>
+									<li><a href="statis/mercrec" target="navTab" rel="tab_statis_mercrec">商户推广统计</a></li>
 								</ul>
 							</li>
 							<li><a>订单管理</a>
 								<ul>
-									<li><a href="/order/search" target="navTab" rel="tab_order">订单列表</a></li>
-									<li><a href="/statis/order" target="navTab" rel="tab_statis_order">订单统计</a></li>
+									<li><a href="order/search" target="navTab" rel="tab_order">订单列表</a></li>
+									<li><a href="statis/order" target="navTab" rel="tab_statis_order">订单统计</a></li>
 								</ul>
 							</li>  
 							<li><a>商品管理</a>
 								<ul>
-									<li><a href="/catalog/list" target="navTab" rel="tab_catalog">分类管理</a></li>
-									<li><a href="/product/search" target="navTab" rel="tab_product">商品管理</a></li>
-									<li><a href="/statis/product" target="navTab" rel="tab_statis_product">商品统计</a></li>
-									<li><a href="/hot/list" target="navTab" rel="tab_hot">热销商品管理</a></li>
+									<li><a href="catalog/list" target="navTab" rel="tab_catalog">分类管理</a></li>
+									<li><a href="product/search" target="navTab" rel="tab_product">商品管理</a></li>
+									<li><a href="statis/product" target="navTab" rel="tab_statis_product">商品统计</a></li>
+									<li><a href="hot/list" target="navTab" rel="tab_hot">热销商品管理</a></li>
 								</ul>
 							</li> 
-							<li><a href="/campaign/list" target="navTab" rel="tab_campaign">活动管理</a></li>
+							<li><a>业务员管理</a>
+								<ul>
+									<li><a href="staff/search" target="navTab" rel="tab_staff">业务员管理</a></li>
+									<li><a href="staff/statis" target="navTab" rel="tab_staff_statis">业务员推广统计</a></li>
+								</ul>
+							</li> 
+							<li><a href="campaign/list" target="navTab" rel="tab_campaign">活动管理</a></li>
+							<li><a href="version/list" target="navTab" rel="tab_version">版本管理</a></li>
 							
 						</ul>
 					</div>

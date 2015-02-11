@@ -2,6 +2,7 @@ package com.store.api.mongo.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -204,8 +205,8 @@ public class UserServiceImpl implements UserService {
 	}
 
     @Override
-    public List<User> findByPromoCode(String promoCode) {
-        return repository.findByPromoCode(promoCode);
+    public List<User> findByPromoCodeWithCustomer(String promoCode) {
+        return repository.findByPromoCodeAndType(promoCode,UserType.customer);
     }
 
     @Override
@@ -265,5 +266,38 @@ public class UserServiceImpl implements UserService {
 			return repository.findByPhoneAndTypeIn(phone, new UserType[]{UserType.customer,UserType.visitor},pr);
 		else
 			return null;
+	}
+
+	@Override
+	public List<UserView> statisTopMercRec(long start, long end, int limit) {
+		List<StatisVo> vos=userStatisDao.statisTopMercRec(start, end, limit);
+		List<Long> nums=new ArrayList<Long>();
+		for (StatisVo vo : vos) {
+			if(!Utils.isEmpty(vo.getPromoCode()) && Utils.isNumber(vo.getPromoCode()))
+				nums.add(Long.valueOf(vo.getPromoCode()));
+		}
+		List<User> temp_users=repository.findByMercNumIn(nums);
+		List<UserView> users=new ArrayList<UserView>();
+		for (StatisVo vo : vos) {
+			for(User user:temp_users){
+				if(vo.getPromoCode().equals(user.getMercNum()+"")){
+					UserView uv=new UserView();
+					uv.setTotalRecuser(vo.getTotalRecuser());
+					uv.setUser(user);
+					users.add(uv);
+				}
+			}
+		}
+		return users;
+	}
+
+	@Override
+	public List<User> findByPromoCodeAndCreateTimeWithCustomer(String promoCode,long start,long end) {
+		return repository.findByPromoCodeAndCreateTimeAndType(promoCode, start, end,UserType.customer);
+	}
+	
+	@Override
+	public User findByMercNum(long mercNum ){
+		return repository.findByMercNumAndType(mercNum, UserType.merchants);
 	}
 }

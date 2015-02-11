@@ -31,7 +31,10 @@ public interface UserRepository extends MongoRepository<User, Long>{
 	@Query(value="{'type':?3,'createTime':{'$gte':?0,'$lt':?1},'cityCode':?2}")
 	public Page<User> findByType(long start,long end,int cityCode,Pageable pr,UserType type);
 	
-	public List<User> findByPromoCode(String promoCode);
+	public List<User> findByPromoCodeAndType(String promoCode,UserType type);
+	
+	@Query(value="{'promoCode':?0,'createTime':{'$gte':?1,'$lt':?2}}")
+	public List<User> findByPromoCodeAndCreateTimeAndType(String promoCode,long start,long end,UserType type);
 	
 	/**
 	 * 按注册时间段统计新增用户
@@ -55,5 +58,10 @@ public interface UserRepository extends MongoRepository<User, Long>{
 	
 	/** 按昵称,手机号和用户类型搜索 **/
 	public Page<User> findByNickNameLikeAndPhoneAndTypeIn(String name,String phone,UserType[] types,Pageable pr);
+	
+	/** 按商户推广码查询商户 **/
+	public List<User> findByMercNumIn(List<Long> nums);
+	
+	public User findByMercNumAndType(long mercNum,UserType type);
 
 }

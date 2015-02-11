@@ -3,6 +3,9 @@ package com.store.api.mongo.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import com.store.api.common.PageBean;
 import com.store.api.mongo.entity.User;
 import com.store.api.mongo.entity.enumeration.UserType;
@@ -23,6 +26,7 @@ public interface UserService {
 	public List<User> findByType(UserType type);
 	
 	public User findByUuid(String uuid);
+	
 	
 //	/**
 //	 * 按商户名和手机号查询商户
@@ -53,7 +57,9 @@ public interface UserService {
 	
 	public List<UserView> findByMerc(PageBean pageBean,long startTime, long endTime, int cid,String userName,String phone);
 	
-	public List<User> findByPromoCode(String promoCode);
+	public List<User> findByPromoCodeWithCustomer(String promoCode);
+	
+	public List<User> findByPromoCodeAndCreateTimeWithCustomer(String promoCode,long start,long end);
 	
 	/**
 	 * 按注册时间段统计新增用户
@@ -119,5 +125,17 @@ public interface UserService {
      * @return
      */
     public List<StatisVo> statisTotalLoginMerc(long start,long end,int cid);
+    
+    /**
+     * 按时间段统计TOP商户推广数
+     * @param start
+     * @param end
+     * @param limit
+     * @return
+     */
+    public List<UserView> statisTopMercRec(long start,long end,int limit);
+    
+    public User findByMercNum(long mercNum );
+    
 	
 }

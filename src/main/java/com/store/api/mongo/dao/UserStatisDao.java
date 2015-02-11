@@ -70,4 +70,13 @@ public interface UserStatisDao {
      */
     public List<StatisVo> statisTotalLoginMerc(long start,long end,int cid);
     
+    /**
+     * 按时间段统计TOP商户推广数
+     * @param start
+     * @param end
+     * @param limit
+     * @return
+     */
+    public List<StatisVo> statisTopMercRec(long start,long end,int limit);
+    
 }

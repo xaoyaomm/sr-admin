@@ -8,15 +8,15 @@
 		<tbody>	
 		<tr>
 		   <th>排序：</th>
-		   <td><input type="text" name="order" value="" /></td>
+		   <td><input type="text" name="order" value="" class="required" /></td>
 		</tr>	
 		<tr>
 		   <th>名称：</th>
-		   <td><input type="text" name="name" value=""/></td>
+		   <td><input type="text" name="name" value="" class="required"/></td>
 		</tr>
 		<tr>
 		   <th>单价(分)：</th>
-		   <td><input type="text" name="price" value="" /></td>
+		   <td><input type="text" name="price" value="" class="required" /></td>
 		</tr>
 		<tr>
 			<th>城市：</th>
@@ -40,7 +40,7 @@
 		<tr>
 		   <th>上传文件：</th>
 		   <td>
-		       <input type="file" name="img" size="40"/>
+		       <input type="file" name="img" size="40" class="required"/>
 		   </td>
 		</tr>
 		</tbody>

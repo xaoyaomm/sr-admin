@@ -146,10 +146,19 @@ public class MerchantsController extends BaseAction {
     }
 	
 	@RequestMapping(value = "/recs/{id}")
-    public ModelAndView recs(@PathVariable long id) {
+    public ModelAndView recs(@PathVariable long id,@RequestParam(value = "start", required = false, defaultValue = "") String start,
+			@RequestParam(value = "end", required = false, defaultValue = "") String end) {
+		long startTime=0;
+        long endTime=0;
         Map<String, Object> result = new HashMap<String, Object>();
         User user = userService.findOne(id);
-        List<User> users=userService.findByPromoCode(user.getMercNum()+"");
+        List<User> users=new ArrayList<User>();
+        if(!Utils.isEmpty(start) && !Utils.isEmpty(end)){
+        	startTime=Utils.parseDateStr(start,false);
+        	endTime=Utils.parseDateStr(end,true);
+        	users=userService.findByPromoCodeAndCreateTimeWithCustomer(user.getMercNum()+"", startTime, endTime);
+        }else
+        	users=userService.findByPromoCodeWithCustomer(user.getMercNum()+"");
         result.put("rec_users", users);
         return new ModelAndView("merchants/recUsers", result);
     }

@@ -163,9 +163,11 @@ public class ProductController extends BaseAction {
 			String fileUrl = Utils.buildFilePath(Constant.IMG_URL_PRE);
 			String randomNum = (int) (Math.random() * 899 + 100) + "";
 			String realName = photo.getOriginalFilename();
-			String suffixName = ".";
+			String suffixName = "";
 			if (!Utils.isEmpty(realName) && realName.contains(".")) {
-				suffixName += realName.split("\\.")[1];
+				suffixName = realName.substring(realName.lastIndexOf("."));
+			}else{
+				return AjaxObject.newError("图片上传失败,文件类型错误").toString();
 			}
 			String fileName = "p_" + System.currentTimeMillis() + randomNum + suffixName;
 			File saveDir = new File(filePhysical);
@@ -230,10 +232,11 @@ public class ProductController extends BaseAction {
 				String fileUrl = Utils.buildFilePath(Constant.IMG_URL_PRE);
 				String randomNum = (int) (Math.random() * 899 + 100) + "";
 				String realName = photo.getOriginalFilename();
-				String suffixName = ".";
+				String suffixName = "";
 				if (!Utils.isEmpty(realName) && realName.contains(".")) {
-					suffixName += realName.split("\\.")[1];
-				}
+					suffixName = realName.substring(realName.lastIndexOf("."));
+				}else
+					return AjaxObject.newError("图片上传失败,文件类型错误").toString();
 				String fileName = "p_" + System.currentTimeMillis() + randomNum + suffixName;
 				File saveDir = new File(filePhysical);
 				File saveFile = new File(filePhysical + fileName);

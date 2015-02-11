@@ -17,14 +17,19 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.store.api.mongo.entity.Area;
+import com.store.api.mongo.entity.User;
 import com.store.api.mongo.entity.enumeration.UserType;
 import com.store.api.mongo.entity.vo.StatisVo;
+import com.store.api.mongo.entity.vo.UserView;
 import com.store.api.mongo.service.AreaService;
 import com.store.api.mongo.service.OrderStatisService;
 import com.store.api.mongo.service.UserService;
@@ -332,6 +337,41 @@ public class StaticController extends BaseAction {
         result.put("dateStr", dateStr.toString());
         result.put("data", data.toString());
         return new ModelAndView("statis/usersChart", result);
+    }
+    
+    @RequestMapping("/mercrec")
+    public ModelAndView mercRec(@RequestParam(value = "start", required = false, defaultValue = "") String start,
+            @RequestParam(value = "end", required = false, defaultValue = "") String end,
+            @RequestParam(value = "limit", required = false, defaultValue = "50") int limit){
+    	long startTime=0;
+        long endTime=0;
+        if(Utils.isEmpty(start)){
+            Calendar cal = Calendar.getInstance();
+            cal.set(Calendar.HOUR_OF_DAY, 0);
+            cal.set(Calendar.MINUTE, 0);
+            cal.set(Calendar.SECOND, 0);
+            cal.add(Calendar.DAY_OF_MONTH, -7);
+            startTime=cal.getTime().getTime();
+            start=Utils.formatDate(cal.getTime(), "yyyy-MM-dd");
+        }else{
+            startTime=Utils.parseDateStr(start,false);
+        }
+        if(Utils.isEmpty(end)){
+            endTime=Utils.getNextDayMills();
+            end=Utils.formatDate(new Date(), "yyyy-MM-dd");
+        }else{
+            endTime=Utils.parseDateStr(end,true);
+        }
+        
+        List<UserView>	users = userService.statisTopMercRec(startTime, endTime, limit);
+        
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("merc_users", users);
+        result.put("m_start", start);
+        result.put("m_end", end);
+        result.put("m_limit", limit);
+        return new ModelAndView("statis/mercRec", result);
+
     }
 
 }

@@ -9,13 +9,16 @@ package com.store.api.mongo.dao.impl;
 
 
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.group;
+import static org.springframework.data.mongodb.core.aggregation.Aggregation.limit;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.match;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.newAggregation;
+import static org.springframework.data.mongodb.core.aggregation.Aggregation.sort;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.aggregation.TypedAggregation;
@@ -134,4 +137,20 @@ public class UserStatisDaoImpl implements UserStatisDao {
         }
          return vos;
     }
+
+	@Override
+	public List<StatisVo> statisTopMercRec(long start, long end, int limit) {
+		Criteria cri=Criteria.where("createTime").gte(start).lt(end).and("type").is(UserType.customer).and("promoCode").ne("");
+        TypedAggregation<User> agg = newAggregation(User.class,
+                match(cri),
+                group("promoCode")
+                    .count().as("totalRecuser")
+                    .first("promoCode").as("promoCode"),
+                sort(Direction.DESC,"totalRecuser"),
+                limit(limit)    
+                );
+        AggregationResults<StatisVo> result=mongoOps.aggregate(agg, StatisVo.class);
+        List<StatisVo> vos=result.getMappedResults();
+        return vos;
+	}
 }

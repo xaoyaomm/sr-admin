@@ -70,7 +70,7 @@ BODY {
 
 <body>
 
-<form action="/login/login" name="loginForm" method="post">
+<form action="login/login" name="loginForm" method="post">
 
 <div align="center">
     <div id="jive-loginBox">

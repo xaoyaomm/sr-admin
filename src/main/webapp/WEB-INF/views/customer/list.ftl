@@ -1,6 +1,6 @@
  <#setting datetime_format="yyyy-MM-dd HH:mm"/>
- <@dwz.pagerForm action="${request.contextPath}/customer/search" page=page>
-</@dwz.pagerForm>
+ <form action="${request.contextPath}/statis/users" method="POST" id="pagerForm">
+</form>
  <div class="pageHeader">
 	<form action="${request.contextPath}/customer/search" onsubmit="return navTabSearch(this);" method="POST" id="pageForm" rel="pagerForm">
 	
